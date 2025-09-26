@@ -1,0 +1,48 @@
+|------------------------|
+|   NOTAS TFG            |
+|------------------------|
+
+
+
+
+PyTorch
+-----------------------
+
+
+-Tensor: Unidad fundamental de datos en PyTorch. Es un array mulitidimensional, que puede ejecutarse en CPUs o GPUs o TPUs(Tenso Processing Unit).
+(Es un vector de x dimensiones, las que uno quiera. En matemáticas también existe )
+
+-Autograd: El motor de diferenciación automática de PyTorch. Es lo que permite calcular gradientes de funciones(esencial para el 
+entrenamiento de redes neuronales mediante retropropagación) de forma eficiente.Cuando se realizan operaciones con tensores, PyTorch construye un gráfico de cómputo, y 
+Autograd lo usa para calcular los gradientes automáticamente.   
+
+-Module: La clase base para todas las redes neuronales en PyTorch.
+
+-Optimizador: Algoritmos que ajustan los pesos de red neuronal durante el entrenamiento para minimizar la función de pérdida.
+
+-Función de pérdida: Mide cuán bien se está desempeñando un modelo. 
+
+
+
+
+FALLOS MÁS HABITUALES:
+
+-Tensores con distintas shapes.
+-Tensores con los datatypes distintos, intfloat32 con un intfloat16. 
+
+
+NBA-API
+----------------------
+
+Para el tema de la lectura de los .csv se utilizará la libreria pandas. Basada en su mayoría en 
+NumPy, luego para temas de cálculo se utlizará ésta última.
+
+Se instala nba-api para las estadísticas de la NBA.
+
+Intentaremos usar datos desde el 2010 de la NBA.
+
+
+Para los datos staticos,, es decir, los que ya tenemos, se usa from nba_api.stats.static import teams, players...
+
+
+Parece ser que al final será con archivos.csv descargados de KAGGLE y mezclándolos con otros lados. :)
