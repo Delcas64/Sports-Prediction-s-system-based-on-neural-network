@@ -3,20 +3,22 @@ from nba_api.stats.endpoints import leaguegamelog
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plot
+from pathlib import Path
 
 
-dt = teams.get_teams()
-equipos = np.array(dt)
-
-#for i in equipos:
-#    print(i)
-    
-    
-celtics = teams.find_teams_by_full_name("Boston Celtics")
+data_dir = Path('../data/data_api')
 
 
-narrray = np.array(celtics)
-
+# Asegurarse de que el directorio existe (crear padres también)
+try:
+    data_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Directorio creado/verificado: {data_dir.absolute()}")
+except Exception as e:
+    print(f"Error creando directorio: {e}")
+    # Fallback: usar directorio actual
+    data_dir = Path('./data_api/')
+    data_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Usando directorio alternativo: {data_dir.absolute()}")
 
 
 # Listado de las temporadas que te interesan
@@ -28,11 +30,16 @@ for season in seasons:
     try:
         print(f"Obteniendo datos para la temporada: {season}")
         # Hacemos la llamada a la API
+        file_path = data_dir / f'{season}.csv'
         log = leaguegamelog.LeagueGameLog(season=season, season_type_all_star="Regular Season")
         games_df = log.get_data_frames()[0]
         # Concatenamos los datos al DataFrame principal
         games_df.to_csv(f'../data/data_api/{season}.csv',index= False)
         all_games = pd.concat([all_games, games_df], ignore_index=True)
+        
+        #Pausa para no saturar la API
+        import time
+        time.sleep(1)
     except Exception as e:
         print(f"Error al obtener datos para la temporada {season}: {e}")
 
@@ -41,6 +48,11 @@ for season in seasons:
 print("\nDatos totales obtenidos:")
 print(all_games.info())
 
-temporada_2003 = all_games.iloc[1]
-for i in temporada_2003.items():
-    print(i)
+
+#Mirar porque ya tengo los csv guardados
+
+all_games = all_games.drop('TEAM_NAME', axis=1) #axis 1 para columnas
+
+print(all_games.info())
+
+
