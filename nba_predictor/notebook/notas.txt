@@ -23,6 +23,11 @@ Autograd lo usa para calcular los gradientes automáticamente.
 -Función de pérdida: Mide cuán bien se está desempeñando un modelo. 
 
 
+DATASETS Y DATALOUDER:
+
+-Datasets guarda los samples y sus etiquetas y DataLoader es in iterador que te permite recorrer el Dataset.
+
+
 
 
 FALLOS MÁS HABITUALES:
@@ -46,3 +51,16 @@ Para los datos staticos,, es decir, los que ya tenemos, se usa from nba_api.stat
 
 
 Parece ser que al final será con archivos.csv descargados de KAGGLE y mezclándolos con otros lados. :)
+
+
+pandas.concat(df1,df2, ignore_index = True), esto quiere decir que empieza con index nuevos. Es decir, de 0 a n-1
+
+
+Mejorar GAME_DATE de stats jugadores limpias
+
+
+
+
+
+
+-CUIDADO CON EL TEMA DE DONDE TENGO INSTALADO Python. Para el tema de la ejecucion.

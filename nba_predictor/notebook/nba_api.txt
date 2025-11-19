@@ -1,0 +1,60 @@
+1) Endpoints/métodos útiles de nba_api para jugadores (y cómo usarlos)
+
+nba_api tiene dos zonas que te interesan mucho:
+
+Static module (para traducir nombres ⇄ IDs).
+
+stats.endpoints (para datos “vivos” de jugadores, tiros, logs, dashboards, etc.).
+
+A. Static (IDs de jugadores y equipos)
+
+from nba_api.stats.static import players, teams
+
+players.get_players() → lista de dicts con id, full_name, etc. Úsalo para resolver LeBron James → 2544. 
+nba-apidocumentation.knowledgeowl.com
+
+B. Endpoints centrados en jugador
+
+commonplayerinfo.CommonPlayerInfo(player_id) → bio, estatura/peso, años, equipo actual, y un “headline” rápido. Útil para features de perfil. 
+nba-apidocumentation.knowledgeowl.com
+
+playercareerstats.PlayerCareerStats(player_id, per_mode36='PerGame'| 'Totals' | 'Per36') → totales/registros por temporada (RS, PO, All-Star). Base genial para features históricos. 
+nba-apidocumentation.knowledgeowl.com
+
+playergamelog.PlayerGameLog(player_id, season='2024-25', season_type_all_star='Regular Season'| 'Playoffs') → registro partido a partido para train/test. (Doc oficial no siempre detallada, pero es endpoint estándar del paquete). 
+nba-apidocumentation.knowledgeowl.com
+
+Tiro y localización
+
+shotchartdetail.ShotChartDetail(player_id=..., team_id=..., season=..., season_type_all_star=...) → todas las jugadas de tiro con loc_x/loc_y y metadatos; perfecto para features de shot quality / zonas. Pro tip: usa context_measure_simple='FGA' para incluir fallados y metidos. 
+Stack Overflow
++2
+Stackademic
++2
+
+Dashboards de liga (filtrables por jugador)
+
+leaguedashplayerstats.LeagueDashPlayerStats(...) → agregados avanzados por jugador (medidas base/advanced, splits por fechas, etc.). Muy útil para features globales de forma. 
+rdocumentation.org
+
+leaguedashplayerbiostats.LeagueDashPlayerBioStats(...) → bio + stats combinadas (edad, altura…) para enriquecer dataset. 
+nbastats.bradleygraber.com
+
+Otros “PT/Tracking” (tiros, clutch, etc.) existen en el paquete (p. ej. LeagueDashPlayerClutch, LeagueDashPtShot), aunque la documentación pública es incompleta; se inspiran en las tablas de nba.com/stats. 
+nbastats.bradleygraber.com
+
+Premios y draft
+
+playerawards.PlayerAwards(player_id) → premios (MVP, All-NBA…), útil para features de “status”. 
+nba-apidocumentation.knowledgeowl.com
+
+drafthistory.DraftHistory(...) → contexto de draft. 
+nba-apidocumentation.knowledgeowl.com
+
+C. Roster (limitaciones y alternativa)
+
+commonteamroster.CommonTeamRoster(team_id, season='2024-25') → plantilla por equipo/temporada. OJO: a veces no refleja lo último o responde una temporada fija (bugs/lag del endpoint). Para ser 100% up-to-date, combina con scraping o con APIs de terceros. 
+Stack Overflow
++1
+
+Nota general: la doc oficial de nba_api existe pero no cubre cada endpoint; el proyecto mapea endpoints “no-oficiales” de nba.com y estos cambian. Aun así, el sitio de documentación y el repositorio son buenos puntos de referencia.

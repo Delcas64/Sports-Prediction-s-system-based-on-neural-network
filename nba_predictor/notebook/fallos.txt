@@ -1,0 +1,23 @@
+Al obtener datos históricos de jugadores no he podido obtener el de estos:
+Conferencia oeste:
+No se pudo obtener los datos del jugador -> Josh Oduro: 'resultSet'
+No se pudo obtener los datos del jugador -> Chase Hunter: 'resultSet'
+No se pudo obtener los datos del jugador -> Chris Mañon: 'resultSet'
+No se pudo obtener los datos del jugador -> Augustas Marčiulionis: 'resultSet'
+No se pudo obtener los datos del jugador -> Tyrese Samuel: 'resultSet'
+No se pudo obtener los datos del jugador -> Mitchell Mascari: 'resultSet'
+No se pudo obtener los datos del jugador -> Daniel Batcho: 'resultSet'
+No se pudo obtener los datos del jugador -> Max Abmas: 'resultSet'
+No se pudo obtener los datos del jugador -> Cameron McGriff: 'resultSet'
+
+
+Conferencia este:
+
+No se pudo obtener los datos del jugador -> Dawson Garcia: 'resultSet'
+No se pudo obtener los datos del jugador -> Jaden Akins: 'resultSet'
+No se pudo obtener los datos del jugador -> Eric Dixon: 'resultSet'
+
+
+Debido a que no tienen datos históricos en la NBA. :)
+
+No pillamos los datos de los rookies en el college, al igual que no cogemos los datos de los europeos que es su primer año

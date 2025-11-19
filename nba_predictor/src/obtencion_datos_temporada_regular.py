@@ -6,6 +6,8 @@ import matplotlib.pyplot as plot
 from pathlib import Path
 
 
+#MIRARLO PORQUE ESTO ME CREA UNO Y NO VA AL QUE ESTABA, AUNQUE YA ES IRRELEVANTE PERO PARA EL FUTURO
+
 data_dir = Path('../data/data_api')
 
 
@@ -30,11 +32,11 @@ for season in seasons:
     try:
         print(f"Obteniendo datos para la temporada: {season}")
         # Hacemos la llamada a la API
-        file_path = data_dir / f'{season}.csv'
+        file_path = data_dir / f'{season}.csv'#Inutil no?
         log = leaguegamelog.LeagueGameLog(season=season, season_type_all_star="Regular Season")
         games_df = log.get_data_frames()[0]
         # Concatenamos los datos al DataFrame principal
-        games_df.to_csv(f'../data/data_api/{season}.csv',index= False)
+        games_df.to_csv(f'../data/data_api/Temporada-Regular-2003-2025/{season}.csv',index= False)
         all_games = pd.concat([all_games, games_df], ignore_index=True)
         
         #Pausa para no saturar la API
