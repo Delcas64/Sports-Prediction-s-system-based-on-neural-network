@@ -24,6 +24,10 @@ nba-apidocumentation.knowledgeowl.com
 playergamelog.PlayerGameLog(player_id, season='2024-25', season_type_all_star='Regular Season'| 'Playoffs') → registro partido a partido para train/test. (Doc oficial no siempre detallada, pero es endpoint estándar del paquete). 
 nba-apidocumentation.knowledgeowl.com
 
+LeagueGameLog()-> para coger los partidos, el game_id y otras estadísticas. Pero no mucha información acerca de los partidos.
+
+BoxScoreTraditional()-> para las estadísticas de los partidos, los puntos, los rebotes y demás. Tanto del equipo visitante como del local.
+
 Tiro y localización
 
 shotchartdetail.ShotChartDetail(player_id=..., team_id=..., season=..., season_type_all_star=...) → todas las jugadas de tiro con loc_x/loc_y y metadatos; perfecto para features de shot quality / zonas. Pro tip: usa context_measure_simple='FGA' para incluir fallados y metidos. 
@@ -51,7 +55,7 @@ nba-apidocumentation.knowledgeowl.com
 drafthistory.DraftHistory(...) → contexto de draft. 
 nba-apidocumentation.knowledgeowl.com
 
-C. Roster (limitaciones y alternativa)
+C.Roster (limitaciones y alternativa)
 
 commonteamroster.CommonTeamRoster(team_id, season='2024-25') → plantilla por equipo/temporada. OJO: a veces no refleja lo último o responde una temporada fija (bugs/lag del endpoint). Para ser 100% up-to-date, combina con scraping o con APIs de terceros. 
 Stack Overflow

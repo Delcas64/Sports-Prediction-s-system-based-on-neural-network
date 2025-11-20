@@ -10,12 +10,20 @@ import sys
 sys.path.append(str(parent_dir))
 from teams import equipo_id
 
-from nba_api.stats.endpoints.leaguegamelog import LeagueGameLog #Para coger los partidos tanto de temporada regular como de playoffs, teamgamelog solo de temporada regular
-from nba_api.stats.endpoints import boxscoretraditionalv2 #Para las estadisticas del partido 
+
+#Este archivo sirve para ayudar a predecir a la red neuronal ya guardada. Primero se entrena la red neuronal con todos los datos hasta
+#la temporada 2025-26. Y luego para predecir, se cogen los últimos 10 partidos, sus estadísitcas y las estadísticas de los jugadores.
+
+
+
+
+
+from nba_api.stats.endpoints.teamgamelogs import TeamGameLogs #Coge los partidos de un equipo, más robusto que teamgamelog. 
+from nba_api.stats.endpoints import boxscoretraditionalv3 #Para las estadisticas del partido 
 from datetime import datetime
 import pandas as pd
 
-#Para no depender de poner season = 2024-25
+#Para no depender de poner season = 2024-25 o la que toque, y tener que cambiarla cada año.
 def get_current_season():
     year = datetime.now().year
     month = datetime.now().month
@@ -32,42 +40,42 @@ def get_current_season():
 
 
 def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equipo como "Atlanta Hawks", en String
+    
     team_id = equipo_id[equipo]
-    fechaActual =  datetime.now()
     #Coger los últimos 10 partidos más actuales
     season = get_current_season()
     #Regular Season, ya que no se puede coger los últimos 5 así como así
-    partidos_id_regular = LeagueGameLog(season = season, season_type='Regular Season' ).get_data_frames()[0]
+    partidos_equipo = TeamGameLogs(season_nullable = season, team_id_nullable=team_id ).get_data_frames()[0] #Esto coge todos los partidos del equipo.
 
-    df_reg_equipo = partidos_id_regular[partidos_id_regular["TEAM_ID"] == team_id]
-    #Playoffs
-    partidos_id_playoffs = LeagueGameLog(season=season, season_type='Playoffs').get_data_frames()[0]
+    #Pasamos las fechas a datetime, para el tema del uso de las fechas.
+    partidos_equipo['GAME_DATE'] = pd.to_datetime(partidos_equipo['GAME_DATE'])
 
-    df_playoffs_equipo = partidos_id_playoffs[partidos_id_playoffs["TEAM_ID"] == team_id]
-
-    df_partidos = pd.concat([df_reg_equipo, df_playoffs_equipo]) #Tenemos todos los partidos del equipo X
-
+    df_partidos = partidos_equipo.sort_values('GAME_DATE',ascending = False) #Así devuelve los partidos ordenados por las últimos fechas
     #Coger los últimos numeroPartidos
-
-    df_partidos["GAME_DATE"] = pd.to_datetime(df["GAME_DATE"]) #Pasamoe la fecha a datetime
-    df = df_partidos.sort_values("GAME_DATE",ascending = False) #Así devuelve los partidos ordenados por las últimos fechas
-
-    df_final = df.head(numeroPartidos)
+    df_final = df_partidos.head(numeroPartidos)
 
     #Ya tenemos los últios partidos, ahora pillar las estadísticas de estos
-
-    partidos = df_final.values
+    print(df_final.columns)
 
     df_estadisticas = pd.DataFrame()
 
-    for partido in partidos:
-        box = boxscoretraditionalv2.BoxScoreTraditionalV2(game_id = partido["GAME_ID"])
-        estadisticas = box.get_data_frames[1]
-        estadisticas_rival = box.get_data_frames[3]
-        stats_totales = pd.concat([estadisticas,estadisticas_rival])
-        df_estadisticas = df_estadisticas.append(stats_totales, ignore_index=True)
+    for _,partido in df_final.iterrows():
+        game_id = partido['GAME_ID']
+        
+        box = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id = game_id)
+        equipos_stats = box.get_data_frames()[0] #Devuelve estadísticas de jugadores y de los equipos todo junto.
+        
+        #El isna(), cogemos las filas que no son de jugador, es decir, las que tienen como Player_ID, NA,
+        #Ya que BoxScoreTradtionalV3 devuelve un dataframe con todo mezclado del partido,
+        team_stats = equipos_stats[(equipos_stats["TEAM_ID"] == team_id) & (equipos_stats['PLAYER_ID'].isna())] 
+        rival_stats = equipos_stats[(equipos_stats["TEAM_ID"] != team_id) & (equipos_stats['PLAYER_ID'].isna())]
+        
+        #Concatenaciones
+        stats_totales = pd.concat([team_stats,rival_stats], ignore_index=True)
+        df_estadisticas = pd.concat([df_estadisticas,stats_totales],ignore_index=True)
     
     return df_estadisticas
+
 
 
 print(ultimos_partidos("Chicago Bulls"))
