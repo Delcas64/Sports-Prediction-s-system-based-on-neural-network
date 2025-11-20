@@ -131,7 +131,7 @@ equipo_id = {
     "Portland Trail Blazers":   1610612757,
     "Memphis Grizzlies" :   1610612763,
     "Indiana Pacers"    :   1610612754,
-    "Philadephia 76ers" :   1610612755,
+    "Philadelphia 76ers" :   1610612755,
     "Toronto Raptors"   :   1610612761,
     "Utah Jazz" :   1610612762,
     "Los Angeles Clippers"  :   1610612746,
