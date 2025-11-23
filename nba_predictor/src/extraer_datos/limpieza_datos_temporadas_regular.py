@@ -1,7 +1,7 @@
 import pandas as pd
 import os 
 import re
-from teams import team_codes, parse_matchup, nba_to_myid
+from nba_predictor.src.obtencion_datos.teams import team_codes, parse_matchup, nba_to_myid
 
 
 ruta_actual = os.path.dirname(os.path.abspath(__file__))

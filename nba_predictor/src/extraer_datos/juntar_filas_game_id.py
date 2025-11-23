@@ -4,7 +4,7 @@ los mismos game_id(partidos) del csv donde guardo todos los partidos desde el 20
 """
 import os
 import pandas as pd
-from teams import team_ids
+from nba_predictor.src.obtencion_datos.teams import team_ids
 
 rutaActual = os.path.dirname(os.path.abspath(__file__)) #Ruta actual del archivo
 rutaArchivo = os.path.join(rutaActual, "../../ejemplo.csv") 

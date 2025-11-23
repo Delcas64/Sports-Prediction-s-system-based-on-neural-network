@@ -1,4 +1,4 @@
-## NBA PREDICTOR
+## BALL PREDICTOR
 
 App that forecast NBA results based on LSTM neural networks and XGBoost algorithm.
 

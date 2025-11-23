@@ -5,10 +5,10 @@ current_file = Path(__file__)
 # Obtener la ruta del directorio padre
 parent_dir = current_file.parent.parent
 
-# Añadir la ruta del padre a sys.path (necesario para poder importar)
+# Añadir la ruta del padre a sys.path (necesario para poder importar el teams.py y eso )
 import sys
 sys.path.append(str(parent_dir))
-from teams import equipo_id, parse_matchup,team_codes
+from nba_predictor.src.obtencion_datos.teams import equipo_id, parse_matchup,team_codes
 
 
 #Este archivo sirve para ayudar a predecir a la red neuronal ya guardada. Primero se entrena la red neuronal con todos los datos hasta

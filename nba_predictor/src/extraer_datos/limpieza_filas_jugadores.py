@@ -1,6 +1,6 @@
 import pandas as pd
 import os 
-from teams import parse_matchup, team_codes
+from nba_predictor.src.obtencion_datos.teams import parse_matchup, team_codes
 
 rutaActual = os.path.dirname(__file__)
 rutaArchivo = os.path.join(rutaActual,'../../stats_jugadores_2024.csv')
