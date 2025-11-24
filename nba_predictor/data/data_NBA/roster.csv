@@ -1,0 +1,526 @@
+TEAM,PLAYER,ID
+Atlanta Hawks,Jacob Toppin,1631210
+Atlanta Hawks,Jalen Johnson,1630552
+Atlanta Hawks,Keaton Wallace,1630811
+Atlanta Hawks,Luke Kennard,1628379
+Atlanta Hawks,Dyson Daniels,1630700
+Atlanta Hawks,Nickeil Alexander-Walker,1629638
+Atlanta Hawks,Kristaps Porziņģis,204001
+Atlanta Hawks,Zaccharie Risacher,1642258
+Atlanta Hawks,Trae Young,1629027
+Atlanta Hawks,N'Faly Dante,1642368
+Atlanta Hawks,Asa Newell,1642854
+Atlanta Hawks,Onyeka Okongwu,1630168
+Atlanta Hawks,Mouhamed Gueye,1631243
+Atlanta Hawks,Nikola Đurišić,1642365
+Atlanta Hawks,Vít Krejčí,1630249
+Atlanta Hawks,Eli John Ndiaye,1642947
+Atlanta Hawks,Caleb Houstan,1631216
+Boston Celtics,Jayson Tatum,1628369
+Boston Celtics,Anfernee Simons,1629014
+Boston Celtics,Jaylen Brown,1627759
+Boston Celtics,Josh Minott,1631169
+Boston Celtics,Derrick White,1628401
+Boston Celtics,Payton Pritchard,1630202
+Boston Celtics,Ron Harper Jr.,1631199
+Boston Celtics,Xavier Tillman,1630214
+Boston Celtics,Jordan Walsh,1641775
+Boston Celtics,Hugo González,1642864
+Boston Celtics,Max Shulga,1642917
+Boston Celtics,Sam Hauser,1630573
+Boston Celtics,Luka Garza,1630568
+Boston Celtics,Baylor Scheierman,1631248
+Boston Celtics,Amari Williams,1642873
+Boston Celtics,Neemias Queta,1629674
+Boston Celtics,Chris Boucher,1628449
+Cleveland Cavaliers,Max Strus,1629622
+Cleveland Cavaliers,Lonzo Ball,1628366
+Cleveland Cavaliers,Thomas Bryant,1628418
+Cleveland Cavaliers,Evan Mobley,1630596
+Cleveland Cavaliers,Sam Merrill,1630241
+Cleveland Cavaliers,Chris Livingston,1641753
+Cleveland Cavaliers,Craig Porter Jr.,1641854
+Cleveland Cavaliers,Darius Garland,1629636
+Cleveland Cavaliers,De'Andre Hunter,1629631
+Cleveland Cavaliers,Jaylon Tyson,1642281
+Cleveland Cavaliers,Larry Nance Jr.,1626204
+Cleveland Cavaliers,Tyrese Proctor,1642878
+Cleveland Cavaliers,Jarrett Allen,1628386
+Cleveland Cavaliers,Dean Wade,1629731
+Cleveland Cavaliers,Luke Travers,1631247
+Cleveland Cavaliers,Nae'Qwan Tomlin,1641772
+Cleveland Cavaliers,Donovan Mitchell,1628378
+New Orleans Pelicans,Jeremiah Fears,1642847
+New Orleans Pelicans,Zion Williamson,1629627
+New Orleans Pelicans,Herbert Jones,1630529
+New Orleans Pelicans,Jordan Poole,1629673
+New Orleans Pelicans,Hunter Dickinson,1630621
+New Orleans Pelicans,Dejounte Murray,1627749
+New Orleans Pelicans,DeAndre Jordan,201599
+New Orleans Pelicans,Bryce McGowens,1631121
+New Orleans Pelicans,Micah Peavy,1642877
+New Orleans Pelicans,Jose Alvarado,1630631
+New Orleans Pelicans,Karlo Matković,1631255
+New Orleans Pelicans,Yves Missi,1642274
+New Orleans Pelicans,Derik Queen,1642852
+New Orleans Pelicans,Trey Alexander,1641725
+New Orleans Pelicans,Jordan Hawkins,1641722
+New Orleans Pelicans,Trey Murphy III,1630530
+New Orleans Pelicans,Saddiq Bey,1630180
+New Orleans Pelicans,Kevon Looney,1626172
+Chicago Bulls,Coby White,1629632
+Chicago Bulls,Trentyn Flowers,1642280
+Chicago Bulls,Emanuel Miller,1641801
+Chicago Bulls,Josh Giddey,1630581
+Chicago Bulls,Jevon Carter,1628975
+Chicago Bulls,Dalen Terry,1631207
+Chicago Bulls,Nikola Vučević,202696
+Chicago Bulls,Ayo Dosunmu,1630245
+Chicago Bulls,Zach Collins,1628380
+Chicago Bulls,Kevin Huerter,1628989
+Chicago Bulls,Matas Buzelis,1641824
+Chicago Bulls,Julian Phillips,1641763
+Chicago Bulls,Noa Essengue,1642855
+Chicago Bulls,Jalen Smith,1630188
+Chicago Bulls,Tre Jones,1630200
+Chicago Bulls,Isaac Okoro,1630171
+Chicago Bulls,Patrick Williams,1630172
+Chicago Bulls,Lachlan Olbrich,1642950
+Dallas Mavericks,Danté Exum,203957
+Dallas Mavericks,Max Christie,1631108
+Dallas Mavericks,Jaden Hardy,1630702
+Dallas Mavericks,Dereck Lively II,1641726
+Dallas Mavericks,Anthony Davis,203076
+Dallas Mavericks,D'Angelo Russell,1626156
+Dallas Mavericks,Dwight Powell,203939
+Dallas Mavericks,Ryan Nembhard,1642948
+Dallas Mavericks,Brandon Williams,1630314
+Dallas Mavericks,Kyrie Irving,202681
+Dallas Mavericks,Naji Marshall,1630230
+Dallas Mavericks,Miles Kelly,1642939
+Dallas Mavericks,Caleb Martin,1628997
+Dallas Mavericks,Daniel Gafford,1629655
+Dallas Mavericks,P.J. Washington,1629023
+Dallas Mavericks,Moussa Cisse,1630619
+Dallas Mavericks,Klay Thompson,202691
+Dallas Mavericks,Cooper Flagg,1642843
+Denver Nuggets,Christian Braun,1631128
+Denver Nuggets,Curtis Jones,1642938
+Denver Nuggets,Julian Strawther,1631124
+Denver Nuggets,Hunter Tyson,1641816
+Denver Nuggets,Tamar Bates,1642926
+Denver Nuggets,Peyton Watson,1631212
+Denver Nuggets,Tim Hardaway Jr.,203501
+Denver Nuggets,Bruce Brown,1628971
+Denver Nuggets,DaRon Holmes II,1641747
+Denver Nuggets,Nikola Jokić,203999
+Denver Nuggets,Jonas Valančiūnas,202685
+Denver Nuggets,Spencer Jones,1642461
+Denver Nuggets,Zeke Nnaji,1630192
+Denver Nuggets,Cameron Johnson,1629661
+Denver Nuggets,Jalen Pickett,1629618
+Denver Nuggets,Jamal Murray,1627750
+Denver Nuggets,Aaron Gordon,203932
+Golden State Warriors,Gary Payton II,1627780
+Golden State Warriors,Jonathan Kuminga,1630228
+Golden State Warriors,Brandin Podziemski,1641764
+Golden State Warriors,Will Richard,1642954
+Golden State Warriors,Moses Moody,1630541
+Golden State Warriors,Buddy Hield,1627741
+Golden State Warriors,De'Anthony Melton,1629001
+Golden State Warriors,Jimmy Butler III,202710
+Golden State Warriors,Gui Santos,1630611
+Golden State Warriors,Al Horford,201143
+Golden State Warriors,Quinten Post,1642366
+Golden State Warriors,Alex Toohey,1642893
+Golden State Warriors,Draymond Green,203110
+Golden State Warriors,Stephen Curry,201939
+Golden State Warriors,Trayce Jackson-Davis,1631218
+Golden State Warriors,Jackson Rowe,1642050
+Golden State Warriors,Pat Spencer,1630311
+Houston Rockets,Aaron Holiday,1628988
+Houston Rockets,Kevon Harris,1630284
+Houston Rockets,Amen Thompson,1641708
+Houston Rockets,Dorian Finney-Smith,1627827
+Houston Rockets,JD Davison,1631120
+Houston Rockets,Fred VanVleet,1627832
+Houston Rockets,Kevin Durant,201142
+Houston Rockets,Jae'Sean Tate,1630256
+Houston Rockets,Jabari Smith Jr.,1631095
+Houston Rockets,Steven Adams,203500
+Houston Rockets,Reed Sheppard,1642263
+Houston Rockets,Tari Eason,1631106
+Houston Rockets,Josh Okogie,1629006
+Houston Rockets,Isaiah Crawford,1642384
+Houston Rockets,Alperen Sengun,1630578
+Houston Rockets,Clint Capela,203991
+Houston Rockets,Jeff Green,201145
+Los Angeles Clippers,Bradley Beal,203078
+Los Angeles Clippers,James Harden,201935
+Los Angeles Clippers,Kawhi Leonard,202695
+Los Angeles Clippers,Chris Paul,101108
+Los Angeles Clippers,Kobe Sanders,1642920
+Los Angeles Clippers,Derrick Jones Jr.,1627884
+Los Angeles Clippers,Kris Dunn,1627739
+Los Angeles Clippers,Bogdan Bogdanović,203992
+Los Angeles Clippers,Brook Lopez,201572
+Los Angeles Clippers,Cam Christie,1642353
+Los Angeles Clippers,Yanic Konan Niederhäuser,1642949
+Los Angeles Clippers,Jahmyl Telfort,1643141
+Los Angeles Clippers,John Collins,1628381
+Los Angeles Clippers,Jordan Miller,1641757
+Los Angeles Clippers,Kobe Brown,1641738
+Los Angeles Clippers,Nicolas Batum,201587
+Los Angeles Clippers,Ivica Zubac,1627826
+Los Angeles Lakers,Adou Thiero,1642876
+Los Angeles Lakers,Jarred Vanderbilt,1629020
+Los Angeles Lakers,Dalton Knecht,1642261
+Los Angeles Lakers,Deandre Ayton,1629028
+Los Angeles Lakers,Gabe Vincent,1629216
+Los Angeles Lakers,Bronny James,1642355
+Los Angeles Lakers,Christian Koloko,1631132
+Los Angeles Lakers,Jaxson Hayes,1629637
+Los Angeles Lakers,Jake LaRavia,1631222
+Los Angeles Lakers,Maxi Kleber,1628467
+Los Angeles Lakers,Austin Reaves,1630559
+Los Angeles Lakers,Nick Smith Jr.,1641733
+Los Angeles Lakers,LeBron James,2544
+Los Angeles Lakers,Rui Hachimura,1629060
+Los Angeles Lakers,Chris Mañon,1643024
+Los Angeles Lakers,Marcus Smart,203935
+Los Angeles Lakers,Luka Dončić,1629029
+Miami Heat,Simone Fontecchio,1631323
+Miami Heat,Terry Rozier,1626179
+Miami Heat,Nikola Jović,1631107
+Miami Heat,Kel'el Ware,1642276
+Miami Heat,Pelle Larsson,1641796
+Miami Heat,Jaime Jaquez Jr.,1631170
+Miami Heat,Dru Smith,1630696
+Miami Heat,Bam Adebayo,1628389
+Miami Heat,Tyler Herro,1629639
+Miami Heat,Myron Gardner,1642066
+Miami Heat,Keshad Johnson,1642352
+Miami Heat,Jahmir Young,1642443
+Miami Heat,Andrew Wiggins,203952
+Miami Heat,Norman Powell,1626181
+Miami Heat,Kasparas Jakučionis,1642857
+Miami Heat,Davion Mitchell,1630558
+Miami Heat,Vladislav Goldin,1642884
+Milwaukee Bucks,Jericho Sims,1630579
+Milwaukee Bucks,Myles Turner,1626167
+Milwaukee Bucks,Gary Trent Jr.,1629018
+Milwaukee Bucks,Kevin Porter Jr.,1629645
+Milwaukee Bucks,Bobby Portis,1626171
+Milwaukee Bucks,Gary Harris,203914
+Milwaukee Bucks,Taurean Prince,1627752
+Milwaukee Bucks,Ryan Rollins,1631157
+Milwaukee Bucks,Amir Coffey,1629599
+Milwaukee Bucks,Kyle Kuzma,1628398
+Milwaukee Bucks,Mark Sears,1641813
+Milwaukee Bucks,AJ Green,1631260
+Milwaukee Bucks,Alex Antetokounmpo,1630828
+Milwaukee Bucks,Giannis Antetokounmpo,203507
+Milwaukee Bucks,Pete Nance,1631250
+Milwaukee Bucks,Thanasis Antetokounmpo,203648
+Milwaukee Bucks,Andre Jackson Jr.,1641748
+Milwaukee Bucks,Cole Anthony,1630175
+Minnesota Timberwolves,Donte DiVincenzo,1628978
+Minnesota Timberwolves,Terrence Shannon Jr.,1630545
+Minnesota Timberwolves,Jaden McDaniels,1630183
+Minnesota Timberwolves,Rob Dillingham,1642265
+Minnesota Timberwolves,Anthony Edwards,1630162
+Minnesota Timberwolves,Joe Ingles,204060
+Minnesota Timberwolves,Bones Hyland,1630538
+Minnesota Timberwolves,Johnny Juzang,1630548
+Minnesota Timberwolves,Mike Conley,201144
+Minnesota Timberwolves,Naz Reid,1629675
+Minnesota Timberwolves,Joan Beringer,1642866
+Minnesota Timberwolves,Jaylen Clark,1641740
+Minnesota Timberwolves,Enrique Freeman,1642402
+Minnesota Timberwolves,Rudy Gobert,203497
+Minnesota Timberwolves,Julius Randle,203944
+Minnesota Timberwolves,Leonard Miller,1631159
+Minnesota Timberwolves,Rocco Zikarsky,1642911
+Brooklyn Nets,Ziaire Williams,1630533
+Brooklyn Nets,Danny Wolf,1642874
+Brooklyn Nets,Drake Powell,1642962
+Brooklyn Nets,Haywood Highsmith,1629312
+Brooklyn Nets,Egor Dëmin,1642856
+Brooklyn Nets,E.J. Liddell,1630604
+Brooklyn Nets,Tyson Etienne,1630623
+Brooklyn Nets,Tyrese Martin,1631213
+Brooklyn Nets,Terance Mann,1629611
+Brooklyn Nets,Michael Porter Jr.,1629008
+Brooklyn Nets,Day'Ron Sharpe,1630549
+Brooklyn Nets,Noah Clowney,1641730
+Brooklyn Nets,Jalen Wilson,1630592
+Brooklyn Nets,Cam Thomas,1630560
+Brooklyn Nets,Nic Claxton,1629651
+Brooklyn Nets,Ben Saraf,1642879
+Brooklyn Nets,Nolan Traore,1642849
+New York Knicks,Jordan Clarkson,203903
+New York Knicks,Miles McBride,1630540
+New York Knicks,Josh Hart,1628404
+New York Knicks,Pacôme Dadiet,1642359
+New York Knicks,OG Anunoby,1628384
+New York Knicks,Kevin McCullar Jr.,1641755
+New York Knicks,Jalen Brunson,1628973
+New York Knicks,Tyler Kolek,1642278
+New York Knicks,Tosan Evbuomwan,1641787
+New York Knicks,Mitchell Robinson,1629011
+New York Knicks,Mikal Bridges,1628969
+New York Knicks,Guerschon Yabusele,1627824
+New York Knicks,Karl-Anthony Towns,1626157
+New York Knicks,Landry Shamet,1629013
+New York Knicks,Trey Jemison III,1641998
+New York Knicks,Mohamed Diawara,1642885
+New York Knicks,Ariel Hukporti,1630574
+Orlando Magic,Anthony Black,1641710
+Orlando Magic,Jonathan Isaac,1628371
+Orlando Magic,Tyus Jones,1626145
+Orlando Magic,Desmond Bane,1630217
+Orlando Magic,Jalen Suggs,1630591
+Orlando Magic,Paolo Banchero,1631094
+Orlando Magic,Orlando Robinson,1631115
+Orlando Magic,Jamal Cain,1631288
+Orlando Magic,Jase Richardson,1642859
+Orlando Magic,Jett Howard,1641724
+Orlando Magic,Colin Castleton,1630658
+Orlando Magic,Moritz Wagner,1629021
+Orlando Magic,Franz Wagner,1630532
+Orlando Magic,Tristan da Silva,1641783
+Orlando Magic,Wendell Carter Jr.,1628976
+Orlando Magic,Goga Bitadze,1629048
+Orlando Magic,Noah Penda,1642869
+Indiana Pacers,Tyrese Haliburton,1630169
+Indiana Pacers,Bennedict Mathurin,1631097
+Indiana Pacers,Obi Toppin,1630167
+Indiana Pacers,Andrew Nembhard,1629614
+Indiana Pacers,Taelon Peter,1643007
+Indiana Pacers,Jarace Walker,1641716
+Indiana Pacers,Kam Jones,1642880
+Indiana Pacers,T.J. McConnell,204456
+Indiana Pacers,RayJ Dennis,1642484
+Indiana Pacers,Johnny Furphy,1642277
+Indiana Pacers,Tony Bradley,1628396
+Indiana Pacers,Isaiah Jackson,1630543
+Indiana Pacers,Aaron Nesmith,1630174
+Indiana Pacers,Garrison Mathews,1629726
+Indiana Pacers,Jeremiah Robinson-Earl,1630526
+Indiana Pacers,Ben Sheppard,1641767
+Indiana Pacers,Quenton Jackson,1631245
+Indiana Pacers,Jay Huff,1630643
+Indiana Pacers,Pascal Siakam,1627783
+Philadelphia 76ers,Tyrese Maxey,1630178
+Philadelphia 76ers,Andre Drummond,203083
+Philadelphia 76ers,Quentin Grimes,1629656
+Philadelphia 76ers,Kyle Lowry,200768
+Philadelphia 76ers,Paul George,202331
+Philadelphia 76ers,Kelly Oubre Jr.,1626162
+Philadelphia 76ers,Justin Edwards,1642348
+Philadelphia 76ers,Trendon Watford,1630570
+Philadelphia 76ers,Jared McCain,1642272
+Philadelphia 76ers,Joel Embiid,203954
+Philadelphia 76ers,Johni Broome,1641780
+Philadelphia 76ers,Eric Gordon,201569
+Philadelphia 76ers,Dominick Barlow,1631230
+Philadelphia 76ers,Adem Bona,1641737
+Philadelphia 76ers,Jabari Walker,1631133
+Philadelphia 76ers,Hunter Sallis,1642282
+Philadelphia 76ers,VJ Edgecombe,1642845
+Phoenix Suns,Royce O'Neale,1626220
+Phoenix Suns,Ryan Dunn,1642346
+Phoenix Suns,Devin Booker,1626164
+Phoenix Suns,Nick Richards,1630208
+Phoenix Suns,Dillon Brooks,1628415
+Phoenix Suns,Jalen Green,1630224
+Phoenix Suns,Grayson Allen,1628960
+Phoenix Suns,Khaman Maluach,1642863
+Phoenix Suns,Oso Ighodaro,1642345
+Phoenix Suns,Collin Gillespie,1631221
+Phoenix Suns,Koby Brea,1642886
+Phoenix Suns,Mark Williams,1631109
+Phoenix Suns,Jamaree Bouyea,1631123
+Phoenix Suns,Isaiah Livers,1630587
+Phoenix Suns,Rasheer Fleming,1642853
+Phoenix Suns,Nigel Hayes-Davis,1628502
+Phoenix Suns,Jordan Goodwin,1630692
+Portland Trail Blazers,Damian Lillard,203081
+Portland Trail Blazers,Scoot Henderson,1630703
+Portland Trail Blazers,Blake Wesley,1631104
+Portland Trail Blazers,Caleb Love,1631126
+Portland Trail Blazers,Matisse Thybulle,1629680
+Portland Trail Blazers,Jrue Holiday,201950
+Portland Trail Blazers,Deni Avdija,1630166
+Portland Trail Blazers,Jerami Grant,203924
+Portland Trail Blazers,Yang Hansen,1642905
+Portland Trail Blazers,Shaedon Sharpe,1631101
+Portland Trail Blazers,Javonte Cooke,1631451
+Portland Trail Blazers,Rayan Rupert,1641712
+Portland Trail Blazers,Donovan Clingan,1642270
+Portland Trail Blazers,Kris Murray,1631200
+Portland Trail Blazers,Duop Reath,1641871
+Portland Trail Blazers,Toumani Camara,1641739
+Portland Trail Blazers,Robert Williams III,1629057
+Portland Trail Blazers,Sidy Cissoko,1631321
+Sacramento Kings,Malik Monk,1628370
+Sacramento Kings,Nique Clifford,1642363
+Sacramento Kings,Doug McDermott,203926
+Sacramento Kings,Zach LaVine,203897
+Sacramento Kings,Precious Achiuwa,1630173
+Sacramento Kings,DeMar DeRozan,201942
+Sacramento Kings,Domantas Sabonis,1627734
+Sacramento Kings,Keegan Murray,1631099
+Sacramento Kings,Dennis Schröder,203471
+Sacramento Kings,Russell Westbrook,201566
+Sacramento Kings,Drew Eubanks,1629234
+Sacramento Kings,Dario Šarić,203967
+Sacramento Kings,Devin Carter,1642269
+Sacramento Kings,Keon Ellis,1631165
+Sacramento Kings,Isaiah Stevens,1641815
+Sacramento Kings,Daeqwon Plowden,1631342
+Sacramento Kings,Dylan Cardwell,1642928
+Sacramento Kings,Maxime Raynaud,1642875
+San Antonio Spurs,Jordan McLaughlin,1629162
+San Antonio Spurs,Victor Wembanyama,1641705
+San Antonio Spurs,Dylan Harper,1642844
+San Antonio Spurs,Keldon Johnson,1629640
+San Antonio Spurs,De'Aaron Fox,1628368
+San Antonio Spurs,Stephon Castle,1642264
+San Antonio Spurs,Luke Kornet,1628436
+San Antonio Spurs,Kelly Olynyk,203482
+San Antonio Spurs,Jeremy Sochan,1631110
+San Antonio Spurs,Carter Bryant,1642868
+San Antonio Spurs,Bismack Biyombo,202687
+San Antonio Spurs,Devin Vassell,1630170
+San Antonio Spurs,David Jones Garcia,1642357
+San Antonio Spurs,Riley Minix,1642434
+San Antonio Spurs,Julian Champagnie,1630577
+San Antonio Spurs,Harrison Barnes,203084
+San Antonio Spurs,Lindy Waters III,1630322
+San Antonio Spurs,Harrison Ingram,1631127
+Oklahoma City Thunder,Shai Gilgeous-Alexander,1628983
+Oklahoma City Thunder,Chris Youngblood,1642959
+Oklahoma City Thunder,Luguentz Dort,1629652
+Oklahoma City Thunder,Jaylin Williams,1631119
+Oklahoma City Thunder,Chet Holmgren,1631096
+Oklahoma City Thunder,Jalen Williams,1631114
+Oklahoma City Thunder,Alex Caruso,1627936
+Oklahoma City Thunder,Isaiah Joe,1630198
+Oklahoma City Thunder,Thomas Sorber,1642850
+Oklahoma City Thunder,Ousmane Dieng,1631172
+Oklahoma City Thunder,Branden Carlson,1642382
+Oklahoma City Thunder,Aaron Wiggins,1630598
+Oklahoma City Thunder,Cason Wallace,1641717
+Oklahoma City Thunder,Brooks Barnhizer,1642964
+Oklahoma City Thunder,Ajay Mitchell,1642349
+Oklahoma City Thunder,Kenrich Williams,1629026
+Oklahoma City Thunder,Nikola Topić,1642260
+Oklahoma City Thunder,Isaiah Hartenstein,1628392
+Toronto Raptors,A.J. Lawson,1630639
+Toronto Raptors,Gradey Dick,1641711
+Toronto Raptors,Jonathan Mogbo,1642367
+Toronto Raptors,Brandon Ingram,1627742
+Toronto Raptors,Scottie Barnes,1630567
+Toronto Raptors,Immanuel Quickley,1630193
+Toronto Raptors,RJ Barrett,1629628
+Toronto Raptors,Collin Murray-Boyles,1642867
+Toronto Raptors,Ja'Kobe Walter,1642266
+Toronto Raptors,Garrett Temple,202066
+Toronto Raptors,Jakob Poeltl,1627751
+Toronto Raptors,Jamal Shead,1642347
+Toronto Raptors,Chucky Hepburn,1642935
+Toronto Raptors,Ochai Agbaji,1630534
+Toronto Raptors,Sandro Mamukelashvili,1630572
+Toronto Raptors,Alijah Martin,1642918
+Toronto Raptors,Jamison Battle,1642419
+Utah Jazz,Taylor Hendricks,1641707
+Utah Jazz,Kyle Anderson,203937
+Utah Jazz,Keyonte George,1641718
+Utah Jazz,Cody Williams,1642262
+Utah Jazz,Isaiah Collier,1642268
+Utah Jazz,Svi Mykhailiuk,1629004
+Utah Jazz,Walter Clayton Jr.,1642383
+Utah Jazz,Elijah Harkless,1641989
+Utah Jazz,John Tonje,1642910
+Utah Jazz,Ace Bailey,1642846
+Utah Jazz,Kyle Filipowski,1642271
+Utah Jazz,Lauri Markkanen,1628374
+Utah Jazz,Walker Kessler,1631117
+Utah Jazz,Brice Sensabaugh,1641729
+Utah Jazz,Jusuf Nurkić,203994
+Utah Jazz,Georges Niang,1627777
+Utah Jazz,Oscar Tshiebwe,1631131
+Utah Jazz,Kevin Love,201567
+Memphis Grizzlies,Jahmai Mashack,1642942
+Memphis Grizzlies,Jaylen Wells,1642377
+Memphis Grizzlies,Scotty Pippen Jr.,1630590
+Memphis Grizzlies,Ty Jerome,1629660
+Memphis Grizzlies,Kentavious Caldwell-Pope,203484
+Memphis Grizzlies,Vince Williams Jr.,1631246
+Memphis Grizzlies,Santi Aldama,1630583
+Memphis Grizzlies,Jaren Jackson Jr.,1628991
+Memphis Grizzlies,Javon Small,1642914
+Memphis Grizzlies,Ja Morant,1629630
+Memphis Grizzlies,Zach Edey,1641744
+Memphis Grizzlies,Brandon Clarke,1629634
+Memphis Grizzlies,Olivier-Maxence Prosper,1641765
+Memphis Grizzlies,Cedric Coward,1642907
+Memphis Grizzlies,Cam Spencer,1642285
+Memphis Grizzlies,Jock Landale,1629111
+Memphis Grizzlies,GG Jackson,1641713
+Memphis Grizzlies,John Konchar,1629723
+Washington Wizards,Bilal Coulibaly,1641731
+Washington Wizards,Tristan Vukcevic,1641774
+Washington Wizards,Cam Whitmore,1641715
+Washington Wizards,CJ McCollum,203468
+Washington Wizards,AJ Johnson,1642358
+Washington Wizards,Jamir Watkins,1642364
+Washington Wizards,Bub Carrington,1642267
+Washington Wizards,Malaki Branham,1631103
+Washington Wizards,Justin Champagnie,1630551
+Washington Wizards,Tre Johnson,1642848
+Washington Wizards,Sharife Cooper,1630536
+Washington Wizards,Anthony Gill,1630264
+Washington Wizards,Kyshawn George,1642273
+Washington Wizards,Alex Sarr,1642259
+Washington Wizards,Khris Middleton,203114
+Washington Wizards,Corey Kispert,1630557
+Washington Wizards,Will Riley,1642860
+Washington Wizards,Marvin Bagley III,1628963
+Detroit Pistons,Jalen Duren,1631105
+Detroit Pistons,Cade Cunningham,1630595
+Detroit Pistons,Isaac Jones,1642403
+Detroit Pistons,Ronald Holland II,1641842
+Detroit Pistons,Paul Reed,1630194
+Detroit Pistons,Caris LeVert,1627747
+Detroit Pistons,Wendell Moore Jr.,1631111
+Detroit Pistons,Ausar Thompson,1641709
+Detroit Pistons,Tobias Harris,202699
+Detroit Pistons,Chaz Lanier,1642404
+Detroit Pistons,Jaden Ivey,1631093
+Detroit Pistons,Daniss Jenkins,1642450
+Detroit Pistons,Marcus Sasser,1631204
+Detroit Pistons,Isaiah Stewart,1630191
+Detroit Pistons,Javonte Green,1629750
+Detroit Pistons,Bobi Klintman,1641752
+Detroit Pistons,Tolu Smith,1642449
+Detroit Pistons,Duncan Robinson,1629130
+Charlotte Hornets,Miles Bridges,1628970
+Charlotte Hornets,LaMelo Ball,1630163
+Charlotte Hornets,Grant Williams,1629684
+Charlotte Hornets,Sion James,1642883
+Charlotte Hornets,Kon Knueppel,1642851
+Charlotte Hornets,Collin Sexton,1629012
+Charlotte Hornets,Drew Peterson,1641809
+Charlotte Hornets,Josh Green,1630182
+Charlotte Hornets,Ryan Kalkbrenner,1641750
+Charlotte Hornets,Antonio Reeves,1641810
+Charlotte Hornets,Moussa Diabaté,1631217
+Charlotte Hornets,Pat Connaughton,1626192
+Charlotte Hornets,Mason Plumlee,203486
+Charlotte Hornets,Tre Mann,1630544
+Charlotte Hornets,Brandon Miller,1641706
+Charlotte Hornets,KJ Simpson,1642354
+Charlotte Hornets,Tidjane Salaün,1642275
+Charlotte Hornets,Liam McNeeley,1642862
