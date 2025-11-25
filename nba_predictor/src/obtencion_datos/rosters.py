@@ -20,7 +20,7 @@ os.makedirs(ruta_objetivo, exist_ok=True) #Crear la carpeta si no existe
 pd.set_option('display.max_columns',None) #Para ver todas las columnas y los ... entre medias
 
 
-
+#HAY JUGADORES QUE DEVUELVEN resultSet, eso es que no tienen datos que coger. Ningún dataFrame devuelven.
 
 #-----------------------------------------------------------------
 # Coger los datos de los jugadores y temporadas hasta la 2024-25. 
@@ -44,6 +44,7 @@ def get_current_season():
 
 
 
+#La api tiene el Season_id = '2024-25', '2025-26' y así,
 def last_season_complete():
     year = datetime.now().year
     month = datetime.now().month
@@ -58,15 +59,6 @@ def last_season_complete():
     return f'{start_year}-{str(end_year)[2:]}'
 
 
-#La api tiene las season_id como 2 xxxx siendo x el star year de la season, por ejemplo 22024, season = 2024-25
-def last_season_complete_id():
-    ultima_temporada_completa = last_season_complete()
-
-    season_id = int(ultima_temporada_completa.split('-')[0]) #Cogemos el primer año, el que nos interesa para el season_id
-    
-    #season_id = start_year #Para PlayerCareerStats season_id = 2024 
-
-    return season_id
 
 def obtener_roster():
     season = get_current_season()
@@ -297,11 +289,6 @@ def datos_roster():
 def limpiar_roster_y_guardar_en_csv():
     historico,ultima, historico_pf, ultima_pf = datos_roster()
 
-    print("COLUMNAS DE HISTORICO:", historico.columns.tolist())
-    print("COLUMNAS DE ULTIMA:", ultima.columns.tolist())
-    print("COLUMNAS DE HISTORICO PF:", historico_pf.columns.tolist())
-    print("COLUMNAS DE ULTIMA PF:", ultima_pf.columns.tolist())
-
     #GS -> Games Started, útil.
     features = ['JUGADOR','EQUIPO','GP','GS','MIN','FGM','FGA','FG_PCT','FG3M','FG3A',
                 'FG3_PCT','FTM','FTA','FT_PCT','OREB','DREB','REB','AST','STL','BLK','TOV','PF','PTS',
@@ -329,6 +316,3 @@ def limpiar_roster_y_guardar_en_csv():
 
 
 limpiar_roster_y_guardar_en_csv()
-
-#df_test = PlayerCareerStats(player_id=2544).season_totals_regular_season.get_data_frame()
-#print(df_test[['SEASON_ID']])

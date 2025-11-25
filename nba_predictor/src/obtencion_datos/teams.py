@@ -1,4 +1,8 @@
 # Diccionario abreviación -> nombre completo
+
+"""
+Agrupamos los antiguos nombres de las franquicias con los nuevos.
+"""
 team_codes = {
     "ATL": "Atlanta Hawks",
     "BOS": "Boston Celtics",
@@ -36,9 +40,6 @@ team_codes = {
     "WAS": "Washington Wizards",
 }
 
-"""
-Agrupamos los antiguos nombres de las franquicias con los nuevos.
-"""
 
 # Diccionario TEAM_ID -> nombre completo
 team_ids = {
