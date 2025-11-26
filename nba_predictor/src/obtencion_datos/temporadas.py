@@ -1,7 +1,7 @@
 from nba_api.stats.endpoints import LeagueGameLog #Partido por partido, con stats completas de cada partido 
 import pandas as pd
 import time
-from teams import parse_matchup,team_codes,team_ids,nba_to_myid,name_to_myid
+from teams import parse_matchup,team_codes,team_ids,nba_to_myid
 import os
 
 pd.set_option('display.max_columns',None)
@@ -70,7 +70,7 @@ def juntar_filas(df):
         'HOME_TEAM_AWAY','GAME_TYPE_AWAY','AWAY_TEAM_AWAY',
         'TEAM_ABBREVIATION_HOME', 'TEAM_ABBREVIATION_AWAY',
         'MATCHUP_HOME', 'MATCHUP_AWAY',
-        'SEASON_ID_HOME', 'SEASON_ID_AWAY','SEASON_AWAY'
+        'SEASON_ID_HOME', 'SEASON_ID_AWAY','SEASON_AWAY',
         'VIDEO_AVAILABLE_HOME', 'VIDEO_AVAILABLE_AWAY',
         'GAME_ID_HOME', 'GAME_ID_AWAY',
         'TEAM_NAME_HOME','TEAM_NAME_AWAY',
