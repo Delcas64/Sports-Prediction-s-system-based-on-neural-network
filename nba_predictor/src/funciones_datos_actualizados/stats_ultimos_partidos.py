@@ -1,28 +1,21 @@
-from pathlib import Path
-
-# Obtener la ruta del archivo actual
-current_file = Path(__file__)
-# Obtener la ruta del directorio padre
-parent_dir = current_file.parent.parent
-
-# Añadir la ruta del padre a sys.path (necesario para poder importar el teams.py y eso )
-import sys
-sys.path.append(str(parent_dir))
 from nba_predictor.src.obtencion_datos.teams import equipo_id, parse_matchup,team_codes
 
 
 #Este archivo sirve para ayudar a predecir a la red neuronal ya guardada. Primero se entrena la red neuronal con todos los datos hasta
 #la temporada 2025-26. Y luego para predecir, se cogen los últimos 10 partidos, sus estadísitcas y las estadísticas de los jugadores.
 
+#HAY NaN por el tema de que TeamGameLogs, tarda en acutalizarse, y si pones partidos de Regular Season, si se jugo un In-Season Tournament,
+# no cuenta como eso.
+#Probamos con BoxScoreTraditionalV3. Más útil y fiable. Lo usa la API interna de la NBA.
 
-
-from nba_api.stats.endpoints.teamgamelogs import TeamGameLogs #Coge los partidos de un equipo, más robusto que teamgamelog. 
-#from nba_api.stats.endpoints import boxscoretraditionalv3 #Para las estadisticas del partido 
-#from nba_api.stats.endpoints import gamesummaryv2 #Para las estadisticas del juego con un game_id, home_team, away, arena y demás.
+from nba_api.stats.endpoints import boxscoretraditionalv3 #Lo único que no da rankings, pero no pasa nada.
+from nba_api.stats.endpoints.teamgamelogs import TeamGameLogs #Coge los partidos de un equipo, más robusto que leaguegamelog. 
 from datetime import datetime
 import pandas as pd
 
-#Para no depender de poner season = 2024-25 o la que toque, y tener que cambiarla cada año.
+pd.set_option('display.max_columns',None)
+
+#Para no depender de poner season = 2024-25 o la que toque, y tener que cambiarla cada año. La misma que en rosters.py
 def get_current_season():
     year = datetime.now().year
     month = datetime.now().month
@@ -35,6 +28,57 @@ def get_current_season():
         end_year = year
 
     return f"{start_year}-{str(end_year)[2:]}"
+
+
+
+
+def get_boxscore_stats_equipo(game_id, team_id):
+    #Devuelve las estadísticas de un equipo en un partido usando BoxScoreTraditionalV3
+
+    #Devuelve tres dataframes, 0 = PlayerStats, 1 = TeamStarterBenchStats, 2 = TeamStats
+    box = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=game_id).get_data_frames()[2]
+    row = box[box["teamId"] == team_id].iloc[0]
+
+    # features que sí existen en BoxScoreTraditionalV3, tenemos que hacer un diccionario, en la api de boxScore son ls features en minúsculas
+    features = {
+
+        "FGM": "fieldGoalsMade",
+        "FGA": "fieldGoalsAttempted",
+        "FG_PCT": "fieldGoalsPercentage",
+        "FG3M": "threePointersMade",
+        "FG3A": "threePointersAttempted",
+        "FG3_PCT": "threePointersPercentage",
+        "FTM": "freeThrowsMade",
+        "FTA": "freeThrowsAttempted",
+        "FT_PCT": "freeThrowsPercentage",
+        "OREB": "reboundsOffensive",
+        "DREB": "reboundsDefensive",
+        "REB": "reboundsTotal",
+        "AST": "assists",
+        "STL": "steals",
+        "BLK": "blocks",
+        "TOV": "turnovers",
+        "PF": "foulsPersonal",
+        "PTS": "points",
+        "PLUS_MINUS": "plusMinusPoints"
+    }
+
+    # 1. Crear un diccionario vacío donde iremos guardando las estadísticas
+    data = {}
+
+    # 2. Rellenar el diccionario recorriendo el mapeo (out → src) #src son las de la api de boxScore. "free...",....
+    for out, source in features.items():
+        data[out] = row[source]
+
+    # 3. Convertir el diccionario en un DataFrame de una sola fila
+    df = pd.DataFrame([data])
+
+    return df
+
+
+
+
+
 
 
 #Coger los últimos 10 partidos de un equipo y sus estadisticas
@@ -54,10 +98,7 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
     df_equipo = df_partidos.head(numeroPartidos)
 
     #Ya tenemos los últios partidos, ahora pillar las estadísticas de estos
-    #print(df_equipo.columns)
 
-
-    #Aquí ya tenemos las estadisticas que buscamos, quizá con MATCHUP SACAR AL RIVAL?? 
     """
     SEASON_YEAR', 'TEAM_ID', 'TEAM_ABBREVIATION', 'TEAM_NAME', 'GAME_ID',
        'GAME_DATE', 'MATCHUP', 'WL', 'MIN', 'FGM', 'FGA', 'FG_PCT', 'FG3M',
@@ -89,39 +130,61 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
     res = [] 
 
     for _,partido in df_equipo.iterrows(): #Devuelve una Serie, no un DataFrame
-
+        
+        game_id = partido['GAME_ID']
+        #Para el modelo, mejor rival y team
         matchup = partido['MATCHUP']
 
         home,away = parse_matchup(matchup,team_codes)
-        
-        rival = away if home == equipo else home
+
+        rival = away if home == equipo else home    
         
         #Pillamos datos del rival 
         rival_id = equipo_id[rival]
-
-        rival_equipo = TeamGameLogs(season_nullable=season, team_id_nullable=rival_id).get_data_frames()[0]
         
-        #El partido que nos interesa
-        stats_rival = rival_equipo[rival_equipo["GAME_ID"] == partido["GAME_ID"]]
 
-        #Pasar de Series a DataFrame y con las columnas que queremos
-        stats_rival = stats_rival[features].iloc[0]
+        stats_equipo = get_boxscore_stats_equipo(game_id,team_id)
+        stats_equipo = stats_equipo.add_suffix("_TEAM")
+        #rival_equipo = TeamGameLogs(season_nullable=season, team_id_nullable=rival_id).get_data_frames()[0]
+        
+        stats_rival = get_boxscore_stats_equipo(game_id, rival_id)
+        stats_rival = stats_rival.add_suffix("_RIVAL")
+
+        #El partido que nos interesa
+        #stats_rival = rival_equipo[rival_equipo["GAME_ID"] == partido["GAME_ID"]]
+
+        #Data frame del partido que buscamos
+        #stats_rival = stats_rival[features]
+
         #Verificamos que haya datos del rival.
-        if stats_rival.empty:
-            continue #Mirar a guardar solo los datos del equipo actual 
+        #if stats_rival.empty:
+         #   print(f'No se pudieron coger los datos del rival {rival}')
+          #  continue #Mirar a guardar solo los datos del equipo actual 
             #raise ValueError(f"No se encontró el partido {partido['GAME_ID']} para el rival {rival}")
 
-        stats_rival = stats_rival.add_suffix("_RIVAL")
-        stats_rival = pd.DataFrame([stats_rival])
 
         #Lo mismo pero con el equipo a evaluar
-        stats_equipo = partido[features]
-        stats_equipo = stats_equipo.add_suffix("_TEAM")
-        stats_equipo = pd.DataFrame([stats_equipo])
+        #stats_equipo = partido[features]
+        #stats_equipo = pd.DataFrame([stats_equipo]) #Pasamos de una Serie a un DataFrame. Iterrows devuelve una Serie
+
+        #stats_equipo = stats_equipo.add_suffix("_TEAM")
+        #stats_rival = stats_rival.add_suffix("_RIVAL")
+
 
         #Ya vienen como datetimes las GAME_DATE
 
-        stats_partido_totales = pd.concat([stats_rival,stats_equipo], axis=1)#Las juntamos en la misma fila
+        stats_partido_totales = pd.concat([stats_equipo,stats_rival], axis=1)#Las juntamos en la misma fila
+
+        #Limpiamos algunas columnas comunes y otras innecesarios
+        stats_partido_totales['GAME_DATE'] = partido['GAME_DATE']
+        #columnasInnecesarias = ['GAME_DATE_TEAM', 'GAME_DATE_RIVAL', 'GAME_ID_TEAM','GAME_ID_RIVAL','MATCHUP_TEAM','MATCHUP_RIVAL']
+        stats_partido_totales['HOME'] = home
+        stats_partido_totales['AWAY'] = away
+        
+        
+        #Quitamos esas columnas
+        #stats_partido_totales = stats_partido_totales.drop(columns=columnasInnecesarias)
+
 
         res.append(stats_partido_totales)
   

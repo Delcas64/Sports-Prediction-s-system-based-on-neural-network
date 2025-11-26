@@ -3,6 +3,8 @@
 |------------------------|
 
 
+--Como ejecutar el archivo x. Desde la raiz del proyecto, dentro de sports_prediction-system... --> python -m nba_predictor.src.funciones_datos_actualizados.stats_ultimos_partidos
+
 
 
 PyTorch
