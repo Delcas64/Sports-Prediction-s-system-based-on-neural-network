@@ -63,7 +63,7 @@ def juntar_filas(df):
     df_final['GAME_TYPE'] = df_final['GAME_TYPE_HOME']
 
 
-    #Ahora limpiamos el dataframe de columnas inútiles para la red
+    #Ahora limpiamos el dataframe de columnas inútiles para la red. 
     featuresInnecesarias = [
         'GAME_DATE_HOME','SEASON_HOME','GAME_TYPE_HOME',
         'HOME_TEAM_HOME','AWAY_TEAM_HOME','GAME_DATE_AWAY',
@@ -74,7 +74,7 @@ def juntar_filas(df):
         'VIDEO_AVAILABLE_HOME', 'VIDEO_AVAILABLE_AWAY',
         'GAME_ID_HOME', 'GAME_ID_AWAY',
         'TEAM_NAME_HOME','TEAM_NAME_AWAY',
-        'TEAM_ID_HOME','TEAM_ID_AWAY'
+        'TEAM_ID_HOME','TEAM_ID_AWAY', 'MIN_HOME','MIN_AWAY'
     ]
 
     df_final = df_final.drop(columns = featuresInnecesarias)
