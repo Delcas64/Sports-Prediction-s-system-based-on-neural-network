@@ -12,6 +12,7 @@ from nba_api.stats.endpoints import boxscoretraditionalv3 #Lo único que no da r
 from nba_api.stats.endpoints.teamgamelogs import TeamGameLogs #Coge los partidos de un equipo, más robusto que leaguegamelog. 
 from datetime import datetime
 import pandas as pd
+import time
 
 pd.set_option('display.max_columns',None)
 
@@ -37,7 +38,7 @@ def get_boxscore_stats_equipo(game_id, team_id):
 
     #Devuelve tres dataframes, 0 = PlayerStats, 1 = TeamStarterBenchStats, 2 = TeamStats
     box = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=game_id).get_data_frames()[2]
-    row = box[box["teamId"] == team_id].iloc[0]
+    fila = box[box["teamId"] == team_id].iloc[0]
 
     # features que sí existen en BoxScoreTraditionalV3, tenemos que hacer un diccionario, en la api de boxScore son ls features en minúsculas
     features = {
@@ -68,18 +69,71 @@ def get_boxscore_stats_equipo(game_id, team_id):
 
     # 2. Rellenar el diccionario recorriendo el mapeo (out → src) #src son las de la api de boxScore. "free...",....
     for out, source in features.items():
-        data[out] = row[source]
+        data[out] = fila[source]
 
     # 3. Convertir el diccionario en un DataFrame de una sola fila
     df = pd.DataFrame([data])
 
     return df
 
+#Fallaba aqui por el tema de los tiempos de espera de la api.
+#Ver con cuidado lo que devuelve
 
+def get_boxcore_stats_jugadores(game_id):
+    
+    try:
+        df_jugadroes = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id).get_data_frames()[0]
+        
+    except Exception as e:
+        print(f"Error al obtener BoxScoreTraditionalV3 para {game_id}: {e}")
+        return pd.DataFrame()
 
+    if df_jugadroes.empty:
+        print(f"BoxScoreTraditionalV3 vacío para game_id={game_id}")
+        return pd.DataFrame()
+    
+    #Devuelve tres dataframes, 0 = PlayerStats, 1 = TeamStarterBenchStats, 2 = TeamStats
+    #box = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=game_id).get_data_frames()[0]
+    #fila = box[box["teamId"] == team_id].iloc[0]
 
+    player_features = {
+        "PLAYER_ID": "personId",
+        "TEAM_ID": "teamId", #Creo que inútil, pero ya veremos.
+        "FIRST": "firstName",
+        "LAST": "familyName",
+        "MIN": "minutes",
+        "FGM": "fieldGoalsMade",
+        "FGA": "fieldGoalsAttempted",
+        "FG_PCT": "fieldGoalsPercentage",
+        "FG3M": "threePointersMade",
+        "FG3A": "threePointersAttempted",
+        "FG3_PCT": "threePointersPercentage",
+        "FTM": "freeThrowsMade",
+        "FTA": "freeThrowsAttempted",
+        "FT_PCT": "freeThrowsPercentage",
+        "OREB": "reboundsOffensive",
+        "DREB": "reboundsDefensive",
+        "REB": "reboundsTotal",
+        "AST": "assists",
+        "STL": "steals",
+        "BLK": "blocks",
+        "TOV": "turnovers",
+        "PF": "foulsPersonal",
+        "PTS": "points",
+        "PLUS_MINUS": "plusMinusPoints"
+    }
 
+    # 1. Crear un diccionario vacío donde iremos guardando las estadísticas
+    data = {}
 
+    # 2. Rellenar el diccionario recorriendo el mapeo (out → src) #src son las de la api de boxScore. "free...",....
+    for out, source in player_features.items():
+        data[out] = df_jugadroes[source]
+
+    # 3. Convertir el diccionario en un DataFrame de una sola fila
+    df = pd.DataFrame([data])
+
+    return df
 
 #Coger los últimos 10 partidos de un equipo y sus estadisticas
 def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equipo como "Atlanta Hawks", en String
@@ -147,6 +201,9 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
         stats_equipo = stats_equipo.add_suffix("_TEAM")
         #rival_equipo = TeamGameLogs(season_nullable=season, team_id_nullable=rival_id).get_data_frames()[0]
         
+
+        #Esperamos 0.6 segunditos entre equipos
+        time.sleep(0.6)
         stats_rival = get_boxscore_stats_equipo(game_id, rival_id)
         stats_rival = stats_rival.add_suffix("_RIVAL")
 
@@ -170,9 +227,13 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
         #stats_equipo = stats_equipo.add_suffix("_TEAM")
         #stats_rival = stats_rival.add_suffix("_RIVAL")
 
+        #Cogemos los jugadores
+
+        df_jugadores = get_boxcore_stats_jugadores(game_id)
 
         #Ya vienen como datetimes las GAME_DATE
 
+        time.sleep(0.6)
         stats_partido_totales = pd.concat([stats_equipo,stats_rival], axis=1)#Las juntamos en la misma fila
 
         #Limpiamos algunas columnas comunes y otras innecesarios
@@ -189,11 +250,12 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
         res.append(stats_partido_totales)
   
     df_res = pd.concat(res,ignore_index=True)
-    return df_res
+    return df_res,df_jugadores
 
 
-
-print(ultimos_partidos("Chicago Bulls"))
+df_res, df_jugadores = ultimos_partidos('Chicago Bulls')
+print(df_res)
+print(df_jugadores)
 
 
 
