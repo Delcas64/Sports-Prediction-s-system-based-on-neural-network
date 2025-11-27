@@ -1,6 +1,7 @@
 from nba_api.stats.static import teams
 from nba_api.stats.endpoints import CommonTeamRoster
 from nba_api.stats.endpoints import PlayerCareerStats
+from nba_api.stats.endpoints import LeagueGameLog
 import pandas as pd
 from datetime import datetime
 import time
@@ -283,8 +284,51 @@ def datos_roster():
     return historico_df,ultima_df,historico_pf_df,ultima_pf_df
 
 
+#Siempre es mejor que sea secuencial para la LSTM
+def datos_partido_por_jugador():
+    roster = limpiar_roster()
+
+    df_global = []
+
+    for _,player in roster.iterrows():
 
 
+        #Datos de los jugadores que ya tenemos
+
+        id = player['ID']
+        nombre = player['PLAYER']
+        equipo = player['TEAM']
+
+        
+
+        if equipoActual and equipoActual != equipo: 
+            time.sleep(10) #Cuando cambiamos de equipo esperamos 10 segundos, pero no con el primer equipo de ahi el if equipoActual
+
+        print(f"Descargando partidos de {nombre} ({equipo})...")
+        
+        try:
+            df = LeagueGameLog(
+                player_id_nullable=id,
+                season_nullable='All',
+                season_type_all_star='Regular Season'
+            ).get_data_frames()[0]
+
+            if df.empty:
+                print(f"{nombre} sin partidos registrados.")
+                continue
+
+            df['PLAYER'] = nombre
+            df['TEAM'] = equipo
+            df_global.append(df)
+
+            time.sleep(0.7)  # evitar bloqueos API
+
+        except Exception as e:
+            print(f"Error en {nombre}: {e}")
+
+        df_global = pd.concat(df_global, ignore_index=True)
+    
+    return df_global
 
 def limpiar_roster_y_guardar_en_csv():
     historico,ultima, historico_pf, ultima_pf = datos_roster()
