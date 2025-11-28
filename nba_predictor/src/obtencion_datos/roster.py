@@ -1,7 +1,7 @@
 from nba_api.stats.static import teams
 from nba_api.stats.endpoints import CommonTeamRoster
 from nba_api.stats.endpoints import PlayerCareerStats
-from nba_api.stats.endpoints import LeagueGameLog
+from nba_api.stats.endpoints import PlayerGameLogs #Para coger los partidos de un jugador
 import pandas as pd
 from datetime import datetime
 import time
@@ -24,7 +24,7 @@ pd.set_option('display.max_columns',None) #Para ver todas las columnas y los ...
 #HAY JUGADORES QUE DEVUELVEN resultSet, eso es que no tienen datos que coger. Ningún dataFrame devuelven.
 
 #-----------------------------------------------------------------
-# Coger los datos de los jugadores y temporadas hasta la 2024-25. 
+# Coger los datos de los jugadores en cada partido y temporadas hasta la 2024-25. 
 #-----------------------------------------------------------------
 
 
@@ -64,7 +64,7 @@ def last_season_complete():
 def obtener_roster():
     season = get_current_season()
 
-    print(f"Obteniendo los datos de la temporada actual: {season}")
+    print(f"Obteniendo los jugadores de la temporada actual: {season}")
 
     #Cogemos todos los equipos, por sus id's 
     equipos = teams.get_teams()
@@ -284,51 +284,116 @@ def datos_roster():
     return historico_df,ultima_df,historico_pf_df,ultima_pf_df
 
 
-#Siempre es mejor que sea secuencial para la LSTM
+
+
+#Aumentamos esperas para no atosigar a la API.
+
+
+#COGEMOS LAS TEMPORADAS QUE JUGÓ EL JUGADOR, CUIDADO CON LOS ROOKIES. NO TIENEN TEMPORADAS JUGADAS
+def obtener_temporadas_regular_jugador(player_id):
+    df = PlayerCareerStats(player_id=player_id).season_totals_regular_season.get_data_frame()
+    return list(df['SEASON_ID'].unique())
+
+
+
+#Asumo que no puede coger una temporada que no tiene ningún partido, por el tema de PlayerCareerStats y el unique
+
+#OBTENEMOS LOS PARTIDOS DE UNA TEMPORADA DEL JUGADOR
+def obtener_partido_temporada_regular(player_id, season):
+    
+    df_season = PlayerGameLogs(
+        player_id_nullable=player_id,
+        season_nullable=season,
+        season_type_nullable='Regular Season'
+    )
+
+    return df_season.get_data_frames()[0]
+
+#FUNCIÓN PARA COGER TODOS LOS PARTIDOS DE TODOS LAS TEMPORADAS QUE HA JUGADO UN JUGADOR
+def obtener_todas_los_partidos_temporada_regular(player_id):
+    
+    temporadas = obtener_temporadas_regular_jugador(player_id)
+
+    allMatches = []
+
+    ultima_temporada = last_season_complete()
+
+    for temporada in temporadas:
+
+        if temporada > ultima_temporada:
+            break #quiza continue mejor, ver.
+
+        #print(f"Obteniendo datos del jugador {player_id} de la temporada {temporada}")
+
+        df = obtener_partido_temporada_regular(player_id,temporada)
+
+        if not df.empty:
+            df['SEASON'] = temporada
+            allMatches.append(df)
+        
+        time.sleep(3) #Esperamos 3 segundos entre temporadas
+    
+    if not allMatches:
+        return pd.DataFrame()
+
+    return pd.concat(allMatches,ignore_index=True)
+              
+
+
+
+#Siempre es mejor que sea secuencial para la LSTM, por eso cogemos los datos de los partidos jugados, no el global de las estadísticas
 def datos_partido_por_jugador():
     roster = limpiar_roster()
 
-    df_global = []
+    equipoActual = None
+
+    datos_jugadores = []
 
     for _,player in roster.iterrows():
 
-
+        
         #Datos de los jugadores que ya tenemos
 
         id = player['ID']
         nombre = player['PLAYER']
         equipo = player['TEAM']
 
-        
 
         if equipoActual and equipoActual != equipo: 
-            time.sleep(10) #Cuando cambiamos de equipo esperamos 10 segundos, pero no con el primer equipo de ahi el if equipoActual
+            time.sleep(15) #Cuando cambiamos de equipo esperamos 15 segundos, pero no con el primer equipo de ahi el if equipoActual
+
+        
+        equipoActual = equipo
+
 
         print(f"Descargando partidos de {nombre} ({equipo})...")
+
+        df = obtener_todas_los_partidos_temporada_regular(id)
+
+        if df.empty:
+            print(f"No se obtuvieron datos del jugador{nombre}")
+            continue
         
-        try:
-            df = LeagueGameLog(
-                player_id_nullable=id,
-                season_nullable='All',
-                season_type_all_star='Regular Season'
-            ).get_data_frames()[0]
+        df['JUGADOR'] = nombre
+        df['PLAYER_ID'] = id
+        df['EQUIPO '] = equipo
 
-            if df.empty:
-                print(f"{nombre} sin partidos registrados.")
-                continue
 
-            df['PLAYER'] = nombre
-            df['TEAM'] = equipo
-            df_global.append(df)
+        datos_jugadores.append(df)
+        
+        time.sleep(3) # 3 segundos entre jugadores
 
-            time.sleep(0.7)  # evitar bloqueos API
 
-        except Exception as e:
-            print(f"Error en {nombre}: {e}")
-
-        df_global = pd.concat(df_global, ignore_index=True)
+    df_jugadores = pd.concat(datos_jugadores, ignore_index=True)
+    print(df_jugadores.head(5))
     
-    return df_global
+    return df_jugadores
+
+
+
+
+
+
 
 def limpiar_roster_y_guardar_en_csv():
     historico,ultima, historico_pf, ultima_pf = datos_roster()
@@ -359,4 +424,8 @@ def limpiar_roster_y_guardar_en_csv():
 
 
 
-limpiar_roster_y_guardar_en_csv()
+#limpiar_roster_y_guardar_en_csv()
+inicio = time.time()
+datos_partido_por_jugador()
+fin = time.time()
+print(f"El programa ha tardado {fin-inicio} segundos")
