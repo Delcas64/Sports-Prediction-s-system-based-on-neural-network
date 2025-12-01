@@ -10,39 +10,7 @@ import os
 from requests.exceptions import ReadTimeout, ConnectionError #Para el tema de la API y los fallos por espera
 
 
-
-#---------------------- SISTEMA DE GESTIÓN DE HTTP FALLOS EN LA API-----------------------------------
-
-FALLOS_SEGUIDOS = 0 
-
-
-
-
-
-
-
-
-def registrar_fallo_simple():
-    global FALLOS_SEGUIDOS
-    FALLOS_SEGUIDOS += 1
-
-    print(f"[INFO] Fallos seguidos: {FALLOS_SEGUIDOS}/5")
-
-    if FALLOS_SEGUIDOS >= 5:
-        print("\n🔥 5 fallos seguidos detectados. Activando cooldown de 8 minutos...\n")
-        time.sleep(8 * 60)     # 8 minutos
-        FALLOS_SEGUIDOS = 0    # Reset
-        print("💚 Cooldown terminado, continuando...\n")
-
-
-def registrar_exito_simple():
-    global FALLOS_SEGUIDOS
-    FALLOS_SEGUIDOS = 0
-
-
-
-
-
+#Donde guardar los .csv
 
 dir_actual = os.path.dirname(os.path.abspath(__file__)) #Cogemos la ruta del directorio actual
 
@@ -322,11 +290,25 @@ def datos_roster():
 
 
 
+#----------------------------------------------------------------------
+#               ESTADISTICAS POR PARTIDO ROSTER ACTUAL
+#----------------------------------------------------------------------
 
-# Esperar entre llamadas bastante para evitar IP blocks y estas cosas
-
+# Esperar entre llamadas bastante para evitar IP blocks
 
 #Como a veces la API tiene que coger muchos datos, y tarda demasiado, debemos implementar retries y aumentar el Timeout     
+
+
+
+
+
+#---------------------------TEMPORADA REGULAR--------------------------------------
+
+
+
+
+
+
 
 #COGEMOS LAS TEMPORADAS QUE JUGÓ EL JUGADOR, CUIDADO CON LOS ROOKIES. NO TIENEN TEMPORADAS JUGADAS
 def obtener_temporadas_regular_jugador(player_id,retries = 5, timeout=60, segundoIntento = False):
@@ -462,6 +444,134 @@ def obtener_todas_los_partidos_temporada_regular(player_id):
 
 
 
+#---------------------------PLAYOFFS--------------------------------------
+
+
+def obtener_temporadas_playoffs_jugador(player_id,retries = 5, timeout=60, segundoIntento = False):
+
+
+    for intento in range(1, retries + 1):
+        try:
+            stats = PlayerCareerStats(
+                player_id=player_id,
+                timeout=timeout
+            )
+
+            df = stats.season_totals_post_season.get_data_frame()
+
+            # Caso: rookie, o jugador que no ha llegado nunca a playoffs -> devolver lista vacía
+            if df.empty:
+                print(f"[INFO] El jugador {player_id} no tiene temporadas en playoffs jugadas.")
+                return []
+
+            temporadas = list(df['SEASON_ID'].unique())
+            return temporadas
+
+        except ReadTimeout:
+            print(f"[Timeout] PlayerCareerStats, post-season, ({player_id})  "
+                  f"Reintento {intento}/{retries}...")
+            time.sleep(2 * intento)
+
+        except ConnectionError:
+            print(f"[Conexion] Error PlayerCareerStats,post-season, ({player_id}) "
+                  f"Reintento {intento}/{retries}...")
+            time.sleep(2 * intento)
+
+        except Exception as e:
+            print(f"[ERROR] PlayerCareerStats, post-season, ({player_id}) fallo inesperado: {e}")
+            return []
+
+
+    # ❗ Ha fallado los 5 reintentos
+    if not segundoIntento:
+        print(f"PlayerCarrerStats, post-season,  falló 5 veces seguidas para {player_id}. Esperando 20 minutos...\n")
+        time.sleep((20 * 60)+10)
+        print("Reintentando, post-season,  PlayerCarrerStats desde cero...\n")
+
+        # Volvemos a intentar DESPUÉS DEL COOLDOWN
+        return obtener_temporadas_playoffs_jugador(player_id, retries, timeout, segundoIntento=True)
+
+    # ❗ Si llega aquí → falló también después del cooldown
+    print(f"[ERROR] PlayerCarrerStats, post-season,  falló incluso después del cooldown para {player_id}.")
+    return []
+
+
+def obtener_partido_playoffs(player_id, season,retries=5, sleep_time = 1, segundoIntento = False):
+    
+    for intento in range(1,retries+1):
+        try:
+            
+            df_season = PlayerGameLog(
+                player_id=player_id,
+                season_type_all_star='Playoffs',
+                season=season,
+                timeout=30
+            )
+            
+            
+            return df_season.get_data_frames()[0]
+        
+        except ReadTimeout:
+            print(f"Timeout en PlayerGameLog, playoffs, ({player_id}, {season}). "
+                  f"Reintento {intento}/{retries}...")
+            time.sleep(sleep_time * intento)
+
+        except ConnectionError:
+            print(f"Error de conexión, playoffs, ({player_id}, {season}). "
+                  f"Reintentando {intento}/{retries}...")
+            time.sleep(sleep_time * intento)
+
+        except Exception as e:
+            print(f"Error inesperado para player, playoffs, {player_id}, season {season}: {e}")
+            return pd.DataFrame()
+
+
+    # ❗ Ha fallado los 5 reintentos
+    if not segundoIntento:
+        print(f"PlayerGameLog, playoffs, falló 5 veces seguidas para ({player_id},{season}). "
+              f"Esperando 20 minutos...\n")
+        time.sleep((20 * 60)+10)
+        print("Reintentando PlayerGameLog, playoffs, desde cero...\n")
+
+        # Reintentamos DESPUÉS DEL COOLDOWN
+        return obtener_partido_temporada_regular(player_id, season, retries, segundoIntento=True)
+
+    print(f"[ERROR] PlayerGameLog, playoffs, falló incluso después del cooldown para {player_id} en {season}.")
+    return pd.DataFrame()
+
+def obtener_todos_los_partidos_playoffs(player_id ):
+
+    temporadas_playoffs = obtener_temporadas_playoffs_jugador(player_id)
+
+    allMatches = []
+
+    ultima_temporada = last_season_complete()
+
+    for temporada in temporadas_playoffs:
+
+        if temporada > ultima_temporada:
+            break #quiza continue mejor, ver.
+
+        df = obtener_partido_playoffs(player_id,temporada)
+
+        if not df.empty:
+            df['SEASON'] = temporada
+            allMatches.append(df)
+        
+        time.sleep(2) #Esperamos 2 segundos entre temporadas
+    
+    if not allMatches:
+        return pd.DataFrame()
+
+    return pd.concat(allMatches,ignore_index=True)
+
+
+
+
+
+
+
+
 #Siempre es mejor que sea secuencial para la LSTM, por eso cogemos los datos de los partidos jugados, no el global de las estadísticas
 def datos_partido_por_jugador():
     roster = limpiar_roster()
@@ -482,13 +592,6 @@ def datos_partido_por_jugador():
         equipo = player['TEAM']
 
 
-        #jugadores+=1
-
-        #if jugadores % 100 == 0:
-        #    print(f"Esperamos 8 minutos por la api. Llevamos {jugadores} cargados.")
-        #    time.sleep(8 *60)
-
-
         if equipoActual and equipoActual != equipo: 
             print(F'Cambiando de equipo')
             time.sleep(15) #Cuando cambiamos de equipo esperamos 15 segundos, pero no con el primer equipo de ahi el if equipoActual
@@ -501,13 +604,19 @@ def datos_partido_por_jugador():
 
         df = obtener_todas_los_partidos_temporada_regular(id)
 
+        
         if df.empty:
             print(f"No se obtuvieron datos del jugador {nombre}")
             continue
         
-        
+        df_playoffs = obtener_todos_los_partidos_playoffs(id)
 
-        datos_jugadores.append(df)
+        if not df_playoffs.empty:
+            df_total = pd.concat([df,df_playoffs], ignore_index=True)
+            datos_jugadores.append(df)
+        else:
+            datos_jugadores.append(df)
+        
         
         
         time.sleep(5) # 5 segundos entre jugadores
@@ -525,7 +634,7 @@ def datos_partido_por_jugador():
     #                        'PF_RANK','PFD_RANK','PTS_RANK','PLUS_MINUS_RANK','NBA_FANTASY_PTS_RANK',
     #                        'DD2_RANK','TD3_RANK','WNBA_FANTASY_PTS_RANK','AVAILABLE_FLAG','MIN_SEC',
     #                        'TEAM_COUNT'] 
-    columnasInnecesarias = ['MATCHUP','WL','VIDEO_AVAILABLE']
+    columnasInnecesarias = ['MATCHUP','WL','VIDEO_AVAILABLE','SEASON_ID']
     
     df_jugadores = df_jugadores.drop(columns=columnasInnecesarias)
 
