@@ -443,7 +443,6 @@ def obtener_todas_los_partidos_temporada_regular(player_id):
               
 
 
-
 #---------------------------PLAYOFFS--------------------------------------
 
 
