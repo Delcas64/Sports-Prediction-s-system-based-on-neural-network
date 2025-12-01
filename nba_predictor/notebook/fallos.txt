@@ -21,3 +21,20 @@ No se pudo obtener los datos del jugador -> Eric Dixon: 'resultSet'
 Debido a que no tienen datos históricos en la NBA. :)
 
 No pillamos los datos de los rookies en el college, al igual que no cogemos los datos de los europeos que es su primer año
+
+
+
+
+
+
+
+Jugadores
+-------------------------
+
+-Quizá probar con from nba_api.stats.endpoints import PlayerGameLog #Más robusto para el tema de Timeouts
+
+-Datos de Buddy Hield, fallos de TimeOut en la temporada 2020-21, 2021-22, 2022-23
+
+Comprobar este warning que lanza, por qué ocurre y cuando:
+c:\Users\delca\Desktop\Universidad\4ºCurso\TFG\Codigo_TFG\nba_predictor\src\obtencion_datos\roster.py:368: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  return pd.concat(allMatches,ignore_index=True)

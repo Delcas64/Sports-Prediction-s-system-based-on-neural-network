@@ -2,10 +2,46 @@ from nba_api.stats.static import teams
 from nba_api.stats.endpoints import CommonTeamRoster
 from nba_api.stats.endpoints import PlayerCareerStats
 from nba_api.stats.endpoints import PlayerGameLogs #Para coger los partidos de un jugador
+from nba_api.stats.endpoints import PlayerGameLog #Menos problemas con la api, en principio
 import pandas as pd
 from datetime import datetime
 import time
 import os
+from requests.exceptions import ReadTimeout, ConnectionError #Para el tema de la API y los fallos por espera
+
+
+
+#---------------------- SISTEMA DE GESTIÓN DE HTTP FALLOS EN LA API-----------------------------------
+
+FALLOS_SEGUIDOS = 0 
+
+
+
+
+
+
+
+
+def registrar_fallo_simple():
+    global FALLOS_SEGUIDOS
+    FALLOS_SEGUIDOS += 1
+
+    print(f"[INFO] Fallos seguidos: {FALLOS_SEGUIDOS}/5")
+
+    if FALLOS_SEGUIDOS >= 5:
+        print("\n🔥 5 fallos seguidos detectados. Activando cooldown de 8 minutos...\n")
+        time.sleep(8 * 60)     # 8 minutos
+        FALLOS_SEGUIDOS = 0    # Reset
+        print("💚 Cooldown terminado, continuando...\n")
+
+
+def registrar_exito_simple():
+    global FALLOS_SEGUIDOS
+    FALLOS_SEGUIDOS = 0
+
+
+
+
 
 
 dir_actual = os.path.dirname(os.path.abspath(__file__)) #Cogemos la ruta del directorio actual
@@ -114,6 +150,7 @@ def limpiar_roster():
     csv_path = os.path.join(ruta_objetivo,'roster.csv')
     roster.to_csv(csv_path,index=False) #No necesitamso que nos ponga 1,2, como índice
 
+    print(f'Se obtuvieron los datos del roster actual en la NBA. :)')
     return roster
 
 
@@ -286,28 +323,112 @@ def datos_roster():
 
 
 
-#Aumentamos esperas para no atosigar a la API.
+# Esperar entre llamadas bastante para evitar IP blocks y estas cosas
 
+
+#Como a veces la API tiene que coger muchos datos, y tarda demasiado, debemos implementar retries y aumentar el Timeout     
 
 #COGEMOS LAS TEMPORADAS QUE JUGÓ EL JUGADOR, CUIDADO CON LOS ROOKIES. NO TIENEN TEMPORADAS JUGADAS
-def obtener_temporadas_regular_jugador(player_id):
-    df = PlayerCareerStats(player_id=player_id).season_totals_regular_season.get_data_frame()
-    return list(df['SEASON_ID'].unique())
+def obtener_temporadas_regular_jugador(player_id,retries = 5, timeout=60, segundoIntento = False):
 
+
+    for intento in range(1, retries + 1):
+        try:
+            stats = PlayerCareerStats(
+                player_id=player_id,
+                timeout=timeout
+            )
+
+            df = stats.season_totals_regular_season.get_data_frame()
+
+            # Caso: rookie, two-way o sin datos -> devolver lista vacía
+            if df.empty:
+                print(f"[INFO] El jugador {player_id} no tiene temporadas jugadas.")
+                return []
+
+            temporadas = list(df['SEASON_ID'].unique())
+            return temporadas
+
+        except ReadTimeout:
+            print(f"[Timeout] PlayerCareerStats({player_id}) "
+                  f"Reintento {intento}/{retries}...")
+            time.sleep(2 * intento)
+
+        except ConnectionError:
+            print(f"[Conexion] Error PlayerCareerStats({player_id}) "
+                  f"Reintento {intento}/{retries}...")
+            time.sleep(2 * intento)
+
+        except Exception as e:
+            print(f"[ERROR] PlayerCareerStats({player_id}) fallo inesperado: {e}")
+            return []
+
+
+    # ❗ Ha fallado los 5 reintentos
+    if not segundoIntento:
+        print(f"PlayerCarrerStats falló 5 veces seguidas para {player_id}. Esperando 20 minutos...\n")
+        time.sleep((20 * 60)+10)
+        print("Reintentando PlayerCarrerStats desde cero...\n")
+
+        # Volvemos a intentar DESPUÉS DEL COOLDOWN
+        return obtener_temporadas_regular_jugador(player_id, retries, timeout, segundoIntento=True)
+
+    # ❗ Si llega aquí → falló también después del cooldown
+    print(f"[ERROR] PlayerCarrerStats falló incluso después del cooldown para {player_id}.")
+    return []
+
+    
 
 
 #Asumo que no puede coger una temporada que no tiene ningún partido, por el tema de PlayerCareerStats y el unique
 
-#OBTENEMOS LOS PARTIDOS DE UNA TEMPORADA DEL JUGADOR
-def obtener_partido_temporada_regular(player_id, season):
-    
-    df_season = PlayerGameLogs(
-        player_id_nullable=player_id,
-        season_nullable=season,
-        season_type_nullable='Regular Season'
-    )
 
-    return df_season.get_data_frames()[0]
+#OBTENEMOS LOS PARTIDOS DE UNA TEMPORADA DEL JUGADOR
+def obtener_partido_temporada_regular(player_id, season,retries=5, sleep_time = 1, segundoIntento = False):
+    
+
+    for intento in range(1,retries+1):
+        try:
+            
+            df_season = PlayerGameLog(
+                player_id=player_id,
+                season_type_all_star='Regular Season',
+                season=season,
+                timeout=30
+            )
+            
+            
+            return df_season.get_data_frames()[0]
+        
+        except ReadTimeout:
+            print(f"Timeout en PlayerGameLog ({player_id}, {season}). "
+                  f"Reintento {intento}/{retries}...")
+            time.sleep(sleep_time * intento)
+
+        except ConnectionError:
+            print(f"Error de conexión ({player_id}, {season}). "
+                  f"Reintentando {intento}/{retries}...")
+            time.sleep(sleep_time * intento)
+
+        except Exception as e:
+            print(f"Error inesperado para player {player_id}, season {season}: {e}")
+            return pd.DataFrame()
+
+
+    # ❗ Ha fallado los 5 reintentos
+    if not segundoIntento:
+        print(f"PlayerGameLog falló 5 veces seguidas para ({player_id},{season}). "
+              f"Esperando 20 minutos...\n")
+        time.sleep((20 * 60)+10)
+        print("Reintentando PlayerGameLog desde cero...\n")
+
+        # Reintentamos DESPUÉS DEL COOLDOWN
+        return obtener_partido_temporada_regular(player_id, season, retries, segundoIntento=True)
+
+    print(f"[ERROR] PlayerGameLog falló incluso después del cooldown para {player_id} en {season}.")
+    return pd.DataFrame()
+
+#PROBAR MENOS tiempo de espera entre llamadas
 
 #FUNCIÓN PARA COGER TODOS LOS PARTIDOS DE TODOS LAS TEMPORADAS QUE HA JUGADO UN JUGADOR
 def obtener_todas_los_partidos_temporada_regular(player_id):
@@ -331,7 +452,7 @@ def obtener_todas_los_partidos_temporada_regular(player_id):
             df['SEASON'] = temporada
             allMatches.append(df)
         
-        time.sleep(3) #Esperamos 3 segundos entre temporadas
+        time.sleep(2) #Esperamos 2 segundos entre temporadas
     
     if not allMatches:
         return pd.DataFrame()
@@ -349,6 +470,8 @@ def datos_partido_por_jugador():
 
     datos_jugadores = []
 
+    #jugadores = 0
+
     for _,player in roster.iterrows():
 
         
@@ -359,7 +482,15 @@ def datos_partido_por_jugador():
         equipo = player['TEAM']
 
 
+        #jugadores+=1
+
+        #if jugadores % 100 == 0:
+        #    print(f"Esperamos 8 minutos por la api. Llevamos {jugadores} cargados.")
+        #    time.sleep(8 *60)
+
+
         if equipoActual and equipoActual != equipo: 
+            print(F'Cambiando de equipo')
             time.sleep(15) #Cuando cambiamos de equipo esperamos 15 segundos, pero no con el primer equipo de ahi el if equipoActual
 
         
@@ -371,24 +502,41 @@ def datos_partido_por_jugador():
         df = obtener_todas_los_partidos_temporada_regular(id)
 
         if df.empty:
-            print(f"No se obtuvieron datos del jugador{nombre}")
+            print(f"No se obtuvieron datos del jugador {nombre}")
             continue
         
-        df['JUGADOR'] = nombre
-        df['PLAYER_ID'] = id
-        df['EQUIPO '] = equipo
-
+        
 
         datos_jugadores.append(df)
         
-        time.sleep(3) # 3 segundos entre jugadores
+        
+        time.sleep(5) # 5 segundos entre jugadores
 
 
     df_jugadores = pd.concat(datos_jugadores, ignore_index=True)
+    
+    #Limpiamos las estadisticas inútiles
+
+    #columnasInnecesarias = ['SEASON_YEAR','NICKNAME','TEAM_ABBREVIATION','MATCHUP','WL',  
+    #                        'NBA_FANTASY_PTS','DD2','TD3','WNBA_FANTASY_PTS','GP_RANK','W_RANK',
+    #                        'L_RANK','W_PCT_RANK','MIN_RANK','FGM_RANK','FGA_RANK','FG_PCT_RANK','FG3M_RANK',
+    #                        'FG3A_RANK','FG3_PCT_RANK','FTM_RANK','FTA_RANK','FT_PCT_RANK','OREB_RANK',
+    #                        'DREB_RANK','REB_RANK','AST_RANK','TOV_RANK','STL_RANK','BLK_RANK','BLKA_RANK'
+    #                        'PF_RANK','PFD_RANK','PTS_RANK','PLUS_MINUS_RANK','NBA_FANTASY_PTS_RANK',
+    #                        'DD2_RANK','TD3_RANK','WNBA_FANTASY_PTS_RANK','AVAILABLE_FLAG','MIN_SEC',
+    #                        'TEAM_COUNT'] 
+    columnasInnecesarias = ['MATCHUP','WL','VIDEO_AVAILABLE']
+    
+    df_jugadores = df_jugadores.drop(columns=columnasInnecesarias)
+
+    df_jugadores['GAME_DATE'] = pd.to_datetime(df_jugadores['GAME_DATE']).dt.date #Para quitar la hora
+    
     print(df_jugadores.head(5))
+
+    path = os.path.join(ruta_objetivo,'jugadores.csv')
+    df_jugadores.to_csv(path, index=False)
     
     return df_jugadores
-
 
 
 
