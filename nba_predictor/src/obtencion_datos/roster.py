@@ -1,13 +1,15 @@
 from nba_api.stats.static import teams
 from nba_api.stats.endpoints import CommonTeamRoster
 from nba_api.stats.endpoints import PlayerCareerStats
-from nba_api.stats.endpoints import PlayerGameLogs #Para coger los partidos de un jugador
+from nba_api.stats.endpoints import PlayerGameLogs #Para coger los partidos de un jugador, y porque tiene el Team_id del equipo para el que jugaron
 from nba_api.stats.endpoints import PlayerGameLog #Menos problemas con la api, en principio
 import pandas as pd
 from datetime import datetime
 import time
 import os
 from requests.exceptions import ReadTimeout, ConnectionError #Para el tema de la API y los fallos por espera
+
+from teams import equipo_id,nba_to_myid
 
 
 #Donde guardar los .csv
@@ -372,10 +374,10 @@ def obtener_partido_temporada_regular(player_id, season,retries=5, sleep_time = 
     for intento in range(1,retries+1):
         try:
             
-            df_season = PlayerGameLog(
-                player_id=player_id,
-                season_type_all_star='Regular Season',
-                season=season,
+            df_season = PlayerGameLogs(
+                player_id_nullable=player_id,
+                season_type_nullable='Regular Season',
+                season_nullable=season,
                 timeout=30
             )
             
@@ -500,10 +502,10 @@ def obtener_partido_playoffs(player_id, season,retries=5, sleep_time = 1, segund
     for intento in range(1,retries+1):
         try:
             
-            df_season = PlayerGameLog(
-                player_id=player_id,
-                season_type_all_star='Playoffs',
-                season=season,
+            df_season = PlayerGameLogs(
+                player_id_nullable=player_id,
+                season_type_nullable='Playoffs',
+                season_nullable=season,
                 timeout=30
             )
             
@@ -599,7 +601,7 @@ def datos_partido_por_jugador():
         equipoActual = equipo
 
 
-        print(f"Descargando partidos de {nombre} ({equipo})...")
+        print(f"Descargando partidos de {nombre} ({equipo}) en temporada regular")
 
         df = obtener_todas_los_partidos_temporada_regular(id)
 
@@ -608,8 +610,10 @@ def datos_partido_por_jugador():
             print(f"No se obtuvieron datos del jugador {nombre}")
             continue
         
+        print(f"Descargando partidos de {nombre} ({equipo}) en playoffs")
         df_playoffs = obtener_todos_los_partidos_playoffs(id)
 
+        df['EQUIPO_ACTUAL_ID'] = nba_to_myid[equipo_id[equipo]]
         if not df_playoffs.empty:
             df_total = pd.concat([df,df_playoffs], ignore_index=True)
             datos_jugadores.append(df)
@@ -633,14 +637,13 @@ def datos_partido_por_jugador():
     #                        'PF_RANK','PFD_RANK','PTS_RANK','PLUS_MINUS_RANK','NBA_FANTASY_PTS_RANK',
     #                        'DD2_RANK','TD3_RANK','WNBA_FANTASY_PTS_RANK','AVAILABLE_FLAG','MIN_SEC',
     #                        'TEAM_COUNT'] 
-    columnasInnecesarias = ['MATCHUP','WL','VIDEO_AVAILABLE','SEASON_ID']
+    #columnasInnecesarias = ['MATCHUP','WL','VIDEO_AVAILABLE','SEASON_ID']
     
-    df_jugadores = df_jugadores.drop(columns=columnasInnecesarias)
+    #df_jugadores = df_jugadores.drop(columns=columnasInnecesarias)
 
     df_jugadores['GAME_DATE'] = pd.to_datetime(df_jugadores['GAME_DATE']).dt.date #Para quitar la hora
     
-    print(df_jugadores.head(5))
-
+    
     path = os.path.join(ruta_objetivo,'jugadores.csv')
     df_jugadores.to_csv(path, index=False)
     
@@ -682,6 +685,6 @@ def limpiar_roster_y_guardar_en_csv():
 
 #limpiar_roster_y_guardar_en_csv()
 inicio = time.time()
-datos_partido_por_jugador()
+print(datos_partido_por_jugador())
 fin = time.time()
 print(f"El programa ha tardado {fin-inicio} segundos")

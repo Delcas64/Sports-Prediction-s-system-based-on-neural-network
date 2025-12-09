@@ -66,3 +66,6 @@ Mejorar GAME_DATE de stats jugadores limpias
 
 
 -CUIDADO CON EL TEMA DE DONDE TENGO INSTALADO Python. Para el tema de la ejecucion.
+
+
+Coger los datos y gaurdarlos en un csv, después ya limpiarlos a conveniencia en Google Colab.

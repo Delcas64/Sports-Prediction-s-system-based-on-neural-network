@@ -26,6 +26,7 @@ team_codes = {
     "MIN": "Minnesota Timberwolves",
     "NOP": "New Orleans Pelicans",
     "NOH": "New Orleans Pelicans",  # histórico
+    "NOK": "New Orleans Pelicans", # New Orleans / Oklahoma City Hornets , donde Chris Paul empezó.
     "NYK": "New York Knicks",
     "OKC": "Oklahoma City Thunder",
     "SEA": "Oklahoma City Thunder",  # histórico
@@ -110,12 +111,7 @@ nba_to_myid = {
     1610612765: 27,  # Detroit Pistons
     1610612752: 28,  # New York Knicks
     1610612764: 29,  # Washington Wizards
-    1610612741: 30,  # Chicago Bulls
-    1610612740: 6,   # New Orleans Hornets
-    1610612751: 3,   # New Jersey Nets
-    1610612766: 4,   # Charlotte Bobcats
-    1610612760: 5,   #Seattle Supersonics
-    
+    1610612741: 30  # Chicago Bulls
 }
 
 
