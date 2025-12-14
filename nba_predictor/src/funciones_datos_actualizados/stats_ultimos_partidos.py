@@ -230,6 +230,7 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
         #Cogemos los jugadores
 
         df_jugadores = get_boxcore_stats_jugadores(game_id)
+        df_jugadores['GAME_ID'] = game_id 
 
         #Ya vienen como datetimes las GAME_DATE
 
@@ -237,11 +238,11 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
         stats_partido_totales = pd.concat([stats_equipo,stats_rival], axis=1)#Las juntamos en la misma fila
 
         #Limpiamos algunas columnas comunes y otras innecesarios
-        stats_partido_totales['GAME_DATE'] = partido['GAME_DATE']
+        stats_partido_totales['GAME_DATE'] = pd.to_datetime(partido['GAME_DATE'])
         #columnasInnecesarias = ['GAME_DATE_TEAM', 'GAME_DATE_RIVAL', 'GAME_ID_TEAM','GAME_ID_RIVAL','MATCHUP_TEAM','MATCHUP_RIVAL']
         stats_partido_totales['HOME'] = home
         stats_partido_totales['AWAY'] = away
-        
+        stats_partido_totales['GAME_ID'] = game_id
         
         #Quitamos esas columnas
         #stats_partido_totales = stats_partido_totales.drop(columns=columnasInnecesarias)
@@ -254,8 +255,10 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
 
 
 df_res, df_jugadores = ultimos_partidos('Chicago Bulls')
-print(df_res)
-print(df_jugadores)
+print(df_res.columns)
+print(df_jugadores.columns)
+print(df_res.head(1))
+print(df_jugadores.head(1))
 
 
 

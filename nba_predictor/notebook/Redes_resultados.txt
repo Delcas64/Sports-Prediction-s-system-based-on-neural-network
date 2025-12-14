@@ -1,0 +1,135 @@
+Resultados con stats como PTS_HOME,WL_HOME Y ESTAS:
+Temporadas:
+--------------- RESULTADOS FINALES EN TEST ----------------
+Test Loss:      0.6534
+Test Accuracy:  0.6001
+Test F1:        0.6231
+Test Precision: 0.6436 ---> NO ESTÁ MAL.
+Test Recall:    0.6039
+Test AUC:       0.6523
+
+PYJ:
+--------------- RESULTADOS FINALES EN TEST ----------------
+Test Loss:      0.7022
+Test Accuracy:  0.4688
+Test F1:        0.1356
+Test Precision: 0.5333 --> Cara o cruz
+Test Recall:    0.0777
+Test AUC:       0.5555
+
+TERRIBLE
+
+
+
+
+
+
+--------------------
+
+
+
+Ejemplo:
+
+TEAM_ID_HOME  WL_HOME  FGM_HOME  FGA_HOME  FG_PCT_HOME  FG3M_HOME  \
+0            15        1        45        89        0.506          7   
+1            11        1        33        75        0.440          7   
+2            25        1        31        73        0.425          1   
+3             2        1        37        73        0.507          5   
+4             6        1        35       108        0.324          4   
+
+   FG3A_HOME  FG3_PCT_HOME  FTM_HOME  FTA_HOME  FT_PCT_HOME  OREB_HOME  \
+0         20         0.350        12        20        0.600          7   
+1         20         0.350        16        30        0.533         12   
+2         10         0.100        20        26        0.769          7   
+3         16         0.313        19        26        0.731          5   
+4         25         0.160        14        20        0.700         21   
+
+   DREB_HOME  REB_HOME  AST_HOME  STL_HOME  BLK_HOME  TOV_HOME  PF_HOME  \
+0         39        46        32         7         6        10       28   
+1         27        39        25        12         3         8       19   
+2         31        38        20         8        11        20       24   
+3         35        40        28         9         9        10       23   
+4         34        55        24        18         4        11       20   
+
+   PTS_HOME  PLUS_MINUS_HOME  TEAM_ID_AWAY  WL_AWAY  FGM_AWAY  FGA_AWAY  \
+0       109               16            17        0        32        85   
+1        89               15            20        0        29        71   
+2        83                1            23        0        30        83   
+3        98               23            20        0        26        71   
+4        88                5             1        0        33        83   
+
+   FG_PCT_AWAY  FG3M_AWAY  FG3A_AWAY  FG3_PCT_AWAY  FTM_AWAY  FTA_AWAY  \
+0        0.376          7         25         0.280        22        30   
+1        0.408          2          8         0.250        14        17   
+2        0.361          5         10         0.500        17        21   
+3        0.366          5         12         0.417        18        24   
+4        0.398          3         14         0.214        14        19   
+
+   FT_PCT_AWAY  OREB_AWAY  DREB_AWAY  REB_AWAY  AST_AWAY  STL_AWAY  BLK_AWAY  \
+0        0.733         11         35        46        17         4         1   
+1        0.824         12         32        44        16         3         2   
+2        0.810         17         26        43        14         7         5   
+3        0.750          8         31        39        14         4         2   
+4        0.737         10         48        58        18         7        11   
+
+   TOV_AWAY  PF_AWAY  PTS_AWAY  PLUS_MINUS_AWAY  GAME_DATE   GAME_ID  TARGET  \
+0        11       21        93              -16 2003-10-28  20300003       1   
+1        19       22        74              -15 2003-10-28  20300001       1   
+2        18       32        82               -1 2003-10-28  20300002       1   
+3        15       20        75              -23 2003-10-29  20300004       1   
+4        25       20        83               -5 2003-10-29  20300006       1   
+
+   PTS_DIFF  FGM_DIFF  FG3M_DIFF  FTM_DIFF  REB_DIFF  AST_DIFF  POSS_HOME  \
+0        16        13          0       -10         0        15     100.80   
+1        15         4          5         2        -5         9      84.20   
+2         1         1         -4         3        -5         6      97.44   
+3        23        11          0         1         1        14      89.44   
+4         5         2          1         0        -3         6     106.80   
+
+   POSS_AWAY   ORTG_HOME  ORTG_AWAY  DRTG_HOME   DRTG_AWAY  NETRTG_HOME  \
+0      98.20  108.134921  94.704684  92.261905  110.997963    15.873016   
+1      85.48  105.700713  86.569958  87.885986  104.117922    17.814727   
+2      93.24   85.180624  87.945088  84.154351   89.017589     1.026273   
+3      88.56  109.570662  84.688347  83.855098  110.659440    25.715564   
+4     106.36   82.397004  78.036856  77.715356   82.737871     4.681648   
+
+   NETRTG_AWAY  STREAK_HOME  STREAK_AWAY  
+0   -16.293279          0.0          0.0  
+1   -17.547964          0.0          0.0  
+2    -1.072501          0.0          0.0  
+3   -25.971093          0.0          0.0  
+4    -4.701015          0.0          0.0  
+   PLAYER_ID  TEAM_ID   GAME_ID   GAME_DATE      MATCHUP        MIN  FGM  FGA  \
+0    1631210       28  22300912  2024-03-08  NYK vs. ORL   1.216667    0    0   
+1    1631210       28  22300837  2024-02-27  NYK vs. NOP   2.650000    0    0   
+2    1631210       28  22300816  2024-02-24  NYK vs. BOS   1.150000    0    0   
+3    1631210       28  22300794  2024-02-22    NYK @ PHI   0.351667    0    0   
+4    1631210       28  22300778  2024-02-14    NYK @ ORL  17.381667    4    7   
+
+   FG_PCT  FG3M  FG3A  FG3_PCT  FTM  FTA  FT_PCT  OREB  DREB  REB  AST  TOV  \
+0   0.000     0     0    0.000    0    0     0.0     0     0    0    0    0   
+1   0.000     0     0    0.000    0    0     0.0     0     1    1    1    0   
+2   0.000     0     0    0.000    0    0     0.0     0     0    0    0    0   
+3   0.000     0     0    0.000    0    0     0.0     0     0    0    0    0   
+4   0.571     1     3    0.333    2    2     1.0     2     2    4    0    1   
+
+   STL  BLK  BLKA  PF  PFD  PTS  PLUS_MINUS  EQUIPO_ACTUAL_ID  \
+0    0    0     0   0    0    0           2                 1   
+1    0    0     0   0    0    0          -1                 1   
+2    0    0     0   0    0    0           2                 1   
+3    0    0     0   0    0    0           0                 1   
+4    0    0     1   3    1   11         -17                 1   
+
+            HOME_TEAM             AWAY_TEAM  HOME_TEAM_ID  AWAY_TEAM_ID  \
+0     New York Knicks         Orlando Magic            28            22   
+1     New York Knicks  New Orleans Pelicans            28             6   
+2     New York Knicks        Boston Celtics            28             2   
+3  Philadelphia 76ers       New York Knicks            11            28   
+4       Orlando Magic       New York Knicks            22            28   
+
+  TEAM_ROLE  
+0      HOME  
+1      HOME  
+2      HOME  
+3      AWAY  
+4      AWAY  
