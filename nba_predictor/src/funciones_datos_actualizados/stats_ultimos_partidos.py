@@ -207,26 +207,6 @@ def ultimos_partidos(equipo,numeroPartidos = 10): #Asumimos que se pasa el equip
         stats_rival = get_boxscore_stats_equipo(game_id, rival_id)
         stats_rival = stats_rival.add_suffix("_RIVAL")
 
-        #El partido que nos interesa
-        #stats_rival = rival_equipo[rival_equipo["GAME_ID"] == partido["GAME_ID"]]
-
-        #Data frame del partido que buscamos
-        #stats_rival = stats_rival[features]
-
-        #Verificamos que haya datos del rival.
-        #if stats_rival.empty:
-         #   print(f'No se pudieron coger los datos del rival {rival}')
-          #  continue #Mirar a guardar solo los datos del equipo actual 
-            #raise ValueError(f"No se encontró el partido {partido['GAME_ID']} para el rival {rival}")
-
-
-        #Lo mismo pero con el equipo a evaluar
-        #stats_equipo = partido[features]
-        #stats_equipo = pd.DataFrame([stats_equipo]) #Pasamos de una Serie a un DataFrame. Iterrows devuelve una Serie
-
-        #stats_equipo = stats_equipo.add_suffix("_TEAM")
-        #stats_rival = stats_rival.add_suffix("_RIVAL")
-
         #Cogemos los jugadores
 
         df_jugadores = get_boxcore_stats_jugadores(game_id)
