@@ -1,0 +1,178 @@
+/* BASE (mantener siempre) */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+}
+
+header {
+    text-align: center;
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(10px);
+}
+
+header h1 {
+    font-size: 3em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* NUEVO LAYOUT CENTRADO */
+main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#matches {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.match {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px 40px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 25px;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    width: 100%;
+    max-width: 500px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.match:hover {
+    transform: scale(1.05) translateY(-10px);
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+}
+
+.match-visual {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 15px;
+}
+
+.team-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    border: 4px solid rgba(255,255,255,0.4);
+    transition: all 0.3s;
+}
+
+.basketball {
+    width: 65px;
+    height: 65px;
+    filter: drop-shadow(0 5px 20px rgba(255,215,0,0.6));
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.basketball:hover {
+    transform: scale(1.2) rotate(360deg);
+    filter: drop-shadow(0 0 30px rgba(255,215,0,1));
+}
+
+.match-info strong {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* BOTONES */
+#loadMore {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: block;
+    margin: 40px auto;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+}
+
+#loadMore:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    color: black;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: modalSlide 0.3s ease;
+}
+
+@keyframes modalSlide {
+    from { transform: scale(0.8) translateY(50px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.hidden { display: none !important; }
+
+.model-buttons button {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    padding: 15px 30px;
+    margin: 10px;
+    border-radius: 30px;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.model-buttons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+}
+
+.predict-ball::after {
+  content: "✨";
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 18px;
+  animation: sparkle 2s infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+

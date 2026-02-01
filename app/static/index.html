@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NBA Match Predictor</title>
+
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <h1>🏀 NBA Match Predictor</h1>
+    <p>Predicción automática de partidos de la NBA mediante modelos de Machine Learning</p>
+</header>
+
+<main>
+    <h2>Próximos partidos</h2>
+    <div id="matches"></div>
+
+    <button id="loadMore" class="load-more">Ver más partidos</button>
+</main>
+
+<!-- Modal -->
+<div id="modal" class="modal hidden">
+    <div class="modal-content">
+        <h3>Selecciona modelo de predicción</h3>
+        <div class="model-buttons">
+            <button id="lstmBtn">LSTM</button>
+            <button id="xgbBtn">XGBoost</button>
+        </div>
+        <div id="predictionResult"></div>
+        <button id="closeModal" class="close">Cerrar</button>
+    </div>
+</div>
+
+<script src="/static/team-logos.js"></script>
+<script src="/static/script.js"></script>
+</body>
+</html>
